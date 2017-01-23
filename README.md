@@ -1,5 +1,16 @@
 # culqi-ruby
-Biblioteca de Culqi en Ruby
+
+Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consume el Culqi API.
+
+| Versión actual|Culqi API|
+|----|----|
+| [0.0.2](https://rubygems.org/gems/culqi-ruby) (2017-01-20) |[v2](https://beta.culqi.com)|
+
+## Requisitos
+
+- Ruby >= 2.0.0
+- Credenciales de comercio en Culqi (1).
+
 
 ## Ejemplos
 
@@ -117,7 +128,7 @@ jsonRefund = JSON.parse(refund)
 
 ```bash
 gem build culqi-ruby.gemspec
-gem install ./culqi-ruby-0.0.1.gem
+gem install ./culqi-ruby-VERSION.gem
 ```
 
 
