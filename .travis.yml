@@ -12,7 +12,7 @@ notifications:
   email:
     on_success: never
 
-install: gem install culqi-ruby
+install: gem install minitest culqi-ruby
 
 script: rake test
 
