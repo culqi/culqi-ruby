@@ -113,6 +113,14 @@ jsonRefund = JSON.parse(refund)
 
 ```
 
+## Build
+
+```bash
+gem build culqi-ruby.gemspec
+gem install ./culqi-ruby-0.0.1.gem
+```
+
+
 ## Changelog
 
 Todos los cambios en las versiones de esta biblioteca están listados en [CHANGELOG](CHANGELOG).
