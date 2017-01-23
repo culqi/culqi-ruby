@@ -4,8 +4,8 @@ require 'culqi-ruby'
 
 class CulqiTest < Minitest::Test
 
-  Culqi.code_commerce = 'INSERTE_SU_LLAVE_PUBLICA'
-  Culqi.api_key = 'INSERTE_SU_LLAVE_PRIVADA'
+  Culqi.code_commerce = ENV["CODE_COMMERCE"]
+  Culqi.api_key = ENV["API_KEY"]
 
   def getToken
 
