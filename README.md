@@ -1,5 +1,7 @@
 # culqi-ruby
 
+[![Gem Version](https://badge.fury.io/rb/culqi-ruby.svg)](https://badge.fury.io/rb/culqi-ruby)
+
 Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consume el Culqi API.
 
 | Versión actual|Culqi API|
