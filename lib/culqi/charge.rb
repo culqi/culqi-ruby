@@ -5,12 +5,12 @@ module Culqi
 
   class Charge
 
+    extend Post
+    extend Get
+
     URL = '/charges/'
 
-    def self.create(params={})
-      response = Culqi.connect(URL, Culqi.api_key, params)
-      return response.read_body
-    end
+    @url = URL
 
   end
 

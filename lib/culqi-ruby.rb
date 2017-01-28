@@ -1,9 +1,13 @@
 require 'culqi/version'
+require 'culqi/get'
+require 'culqi/post'
+require 'culqi/iins'
 require 'culqi/token'
 require 'culqi/charge'
 require 'culqi/plan'
 require 'culqi/subscription'
 require 'culqi/refund'
+require 'culqi/balance'
 
 module Culqi
 
