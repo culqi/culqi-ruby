@@ -1,16 +1,15 @@
 require 'culqi-ruby'
-require 'util/connect'
 
 module Culqi
 
   class Token
 
+    extend Post
+    extend Get
+
     URL = '/tokens/'
 
-    def self.create(params={})
-      response = Culqi.connect(URL, Culqi.code_commerce, params)
-      return response.read_body
-    end
+    @url = URL
 
   end
 

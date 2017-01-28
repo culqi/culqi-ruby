@@ -1,14 +1,12 @@
 require 'culqi-ruby'
-require 'util/connect'
 
 module Culqi
 
-  class Charge
+  class Iins
 
-    extend Post
     extend Get
 
-    URL = '/charges/'
+    URL = '/iins/'
 
     @url = URL
 

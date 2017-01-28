@@ -130,7 +130,7 @@ jsonRefund = JSON.parse(refund)
 
 ```bash
 gem build culqi-ruby.gemspec
-gem install ./culqi-ruby-VERSION.gem
+gem install ./culqi-ruby-{VERSION}.gem
 ```
 
 
