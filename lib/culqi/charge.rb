@@ -1,10 +1,8 @@
-require 'culqi-ruby'
-require 'util/connect'
-
 module Culqi
 
   class Charge
 
+    extend List
     extend Post
     extend Get
 

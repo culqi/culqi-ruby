@@ -1,11 +1,10 @@
-require 'culqi-ruby'
-require 'util/connect'
-
 module Culqi
 
   class Subscription
 
+    extend List
     extend Post
+    extend Delete
     extend Get
 
     URL = '/subscriptions/'

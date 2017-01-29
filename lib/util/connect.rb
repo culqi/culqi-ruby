@@ -22,7 +22,16 @@ module Culqi
     end
 
     if type.upcase == "GET"
-      request = Net::HTTP::Get.new(url)
+      if !data.nil?
+        url.query = URI.encode_www_form(data)
+        request = Net::HTTP::Get.new(url)
+      else
+        request = Net::HTTP::Get.new(url)
+      end
+    end
+
+    if type.upcase == "DELETE"
+      request = Net::HTTP::Delete.new(url)
     end
 
     request["Authorization"] = "Bearer #{api_key}"

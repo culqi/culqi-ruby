@@ -1,5 +1,3 @@
-require 'culqi-ruby'
-
 module Culqi
 
   class Token

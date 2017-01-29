@@ -1,9 +1,8 @@
-require 'culqi-ruby'
-
 module Culqi
 
   class Balance
 
+    extend List
     extend Get
 
     URL = '/balances/'
