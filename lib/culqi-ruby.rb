@@ -1,6 +1,9 @@
+require 'operation/list'
+require 'operation/get'
+require 'operation/post'
+require 'operation/delete'
+
 require 'culqi/version'
-require 'culqi/get'
-require 'culqi/post'
 require 'culqi/iins'
 require 'culqi/token'
 require 'culqi/charge'
