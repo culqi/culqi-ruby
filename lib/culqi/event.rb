@@ -1,12 +1,11 @@
 module Culqi
 
-  class Token
+  class Event
 
     extend List
-    extend Post
     extend Get
 
-    URL = '/tokens/'
+    URL = '/events/'
 
     @url = URL
 

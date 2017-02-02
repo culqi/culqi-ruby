@@ -18,7 +18,9 @@ module Culqi
     request = ""
     if type.upcase == "POST"
       request = Net::HTTP::Post.new(url)
-      request.body = data.to_json
+      if !data.nil?
+        request.body = data.to_json
+      end
     end
 
     if type.upcase == "GET"

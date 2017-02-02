@@ -1,12 +1,13 @@
 module Culqi
 
-  class Token
+  class Customer
 
     extend List
     extend Post
+    extend Delete
     extend Get
 
-    URL = '/tokens/'
+    URL = '/customers/'
 
     @url = URL
 
