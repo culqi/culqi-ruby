@@ -10,6 +10,11 @@ module Culqi
 
     @url = URL
 
+    def capture(id)
+      response = Culqi.connect(URL+id+"/capture/", Culqi.api_key, nil, "post")
+      return response.read_body
+    end
+
   end
 
 end

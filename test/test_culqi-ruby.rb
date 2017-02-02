@@ -12,13 +12,11 @@ class CulqiTest < Minitest::Test
 
     token = Culqi::Token.create(
       :card_number => "4111111111111111",
-      :currency_code => "PEN",
       :cvv => "123",
+      :email => "will@culqi.com",
       :expiration_month => 9,
       :expiration_year => 2020,
-      :last_name => "Will",
-      :email => "will@culqi.com",
-      :first_name => "Aguirre"
+      :fingerprint => "fffqweqwq"
     )
 
     return JSON.parse(token)
@@ -28,19 +26,22 @@ class CulqiTest < Minitest::Test
   def getCharge
 
     charge = Culqi::Charge.create(
-      :address => "Avenida Lima 1232",
-      :address_city => "LIMA",
       :amount => 1000,
-      :country_code => "PE",
+      :antifraud_details => {
+        :address => "Avenida Lima 1232",
+        :address_city => "LIMA",
+        :country_code => "PE",
+        :email => "will@culqi.com",
+        :first_name => "Will",
+        :last_name => "Aguirre",
+        :phone_number => 3333339,
+      }
+      :capture => true,
       :currency_code => "PEN",
-      :email => "will@culqi.com",
-      :first_name => "Will",
+      :description => "Venta de prueba",
       :installments => 0,
-      :last_name => "Aguirre",
       :metadata => "",
-      :phone_number => 3333339,
-      :product_description => "Venta de prueba",
-      :token_id => getToken["id"]
+      :source_id => getToken["id"]
     )
 
     return JSON.parse(charge)
@@ -67,15 +68,8 @@ class CulqiTest < Minitest::Test
   def getSubscription
 
     subscription = Culqi::Subscription.create(
-      :address => "Avenida Lima 123213",
-      :address_city => "LIMA",
-      :country_code => "PE",
-      :email => "wmuro@me.com",
-      :last_name => "Muro",
-      :first_name => "William",
-      :phone_number => 1234567789,
-      :plan_alias => getPlan["alias"],
-      :token_id => getToken["id"]
+      :card_id => "{card_id}",
+      :plan_id => getPlan["id"]
     )
 
     return JSON.parse(subscription)
