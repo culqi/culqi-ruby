@@ -1,11 +1,11 @@
 module Culqi
 
-  class Balance
+  class Transfer
 
     extend List
     extend Get
 
-    URL = '/balances/'
+    URL = '/transfers/'
 
     @url = URL
 

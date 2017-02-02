@@ -13,7 +13,7 @@ require 'culqi/charge'
 require 'culqi/plan'
 require 'culqi/subscription'
 require 'culqi/refund'
-require 'culqi/balance'
+require 'culqi/transfer'
 
 module Culqi
 
