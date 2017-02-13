@@ -15,15 +15,15 @@ module Culqi
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-    request = ""
-    if type.upcase == "POST"
+    request = ''
+    if type.upcase == 'POST'
       request = Net::HTTP::Post.new(url)
       if !data.nil?
         request.body = data.to_json
       end
     end
 
-    if type.upcase == "GET"
+    if type.upcase == 'GET'
       if !data.nil?
         url.query = URI.encode_www_form(data)
         request = Net::HTTP::Get.new(url)
@@ -32,11 +32,16 @@ module Culqi
       end
     end
 
-    if type.upcase == "DELETE"
+    if type.upcase == 'DELETE'
       request = Net::HTTP::Delete.new(url)
     end
 
-    request["Authorization"] = "Bearer #{api_key}"
+    if type.upcase == 'PATCH'
+      request = Net::HTTP::Patch.new(url)
+      request.body = data.to_json
+    end
+
+    request["Authorization"] = 'Bearer #{api_key}'
     request["Content-Type"] = 'application/json'
     request["cache-control"] = 'no-cache'
 

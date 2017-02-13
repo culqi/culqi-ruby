@@ -2,6 +2,7 @@ require 'operation/list'
 require 'operation/get'
 require 'operation/post'
 require 'operation/delete'
+require 'operation/update'
 
 require 'culqi/version'
 require 'culqi/iins'
