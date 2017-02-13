@@ -33,12 +33,12 @@ Culqi.api_key = 'sk_test_UTCQSGcXW8bCyU59'
 ```ruby
 
 token = Culqi::Token.create(
-  :card_number => "4111111111111111",
-  :cvv => "123",
-  :email => "will@culqi.com",
-  :expiration_month => 9,
-  :expiration_year => 2020,
-  :fingerprint => "fffqweqwq"
+    :card_number => '4111111111111111',
+    :cvv => '123',
+    :currency_code => 'PEN',
+    :email => 'test@culqi.com',
+    :expiration_month => 9,
+    :expiration_year => 2020
 )
 
 jsonToken = JSON.parse(token)
@@ -52,22 +52,16 @@ puts jsonToken["id"]
 ```ruby
 
 charge = Culqi::Charge.create(
-  :amount => 1000,
-  :antifraud_details => {
-    :address => "Avenida Lima 1232",
-    :address_city => "LIMA",
-    :country_code => "PE",
-    :email => "will@culqi.com",
-    :first_name => "Will",
-    :last_name => "Aguirre",
-    :phone_number => 3333339,
-  }
-  :capture => true,
-  :currency_code => "PEN",
-  :description => "Venta de prueba",
-  :installments => 0,
-  :metadata => "",
-  :source_id => jsonToken["id"]
+    :amount => 1000,
+    :capture => true,
+    :currency_code => "PEN",
+    :description => "Venta de prueba",
+    :email => 'wmuro@me.com',
+    :installments => 0,
+    :metadata => ({
+        :test => 'test123'
+    }),
+    :source_id => jsonToken["id"]
 )
 
 jsonCharge = JSON.parse(charge)
@@ -79,17 +73,51 @@ jsonCharge = JSON.parse(charge)
 ```ruby
 
 plan = Culqi::Plan.create(
-  :alias => "plan-test-"+SecureRandom.uuid,
-  :amount => 1000,
-  :currency_code => "PEN",
-  :interval => "day",
-  :interval_count => 2,
-  :limit => 10,
-  :name => "Plan de Prueba "+SecureRandom.uuid,
-  :trial_days => 50
+    :amount => 1000,
+    :currency_code => 'PEN',
+    :interval => 'days',
+    :interval_count => 2,
+    :limit => 10,
+    :metadata => ({
+    :alias => 'plan_test'
+    }),
+    :name => 'plan-test-'+SecureRandom.uuid,
+    :trial_days => 50
 )
 
 jsonPlan = JSON.parse(plan)
+
+```
+
+### Crear Costumer
+
+```ruby
+customer = Culqi::Customer.create(
+    :address => 'Avenida Lima 123213',
+    :address_city => 'LIMA',
+    :country_code => 'PE',
+    :email => 'test'+SecureRandom.uuid+'@culqi.com',
+    :first_name => 'William',
+    :last_name => 'Muro',
+    :metadata => ({
+      :other_number => '789953655'
+    }),
+    :phone_number => 998989789
+)
+
+jsonCustomer = JSON.parse(customer)
+
+```
+
+### Crear Card
+
+```ruby
+card = Culqi::Card.create(
+  :customer_id => jsonCustomer["id"],
+  :token_id => jsonToken["id"]
+)
+
+jsonCard = JSON.parse(card)
 
 ```
 
@@ -98,7 +126,7 @@ jsonPlan = JSON.parse(plan)
 ```ruby
 
 subscription = Culqi::Subscription.create(
-  :card_id => "{card_id}",
+  :card_id => jsonCard["id"],
   :plan_id => jsonPlan["id"]
 )
 
