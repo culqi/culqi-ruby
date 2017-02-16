@@ -5,8 +5,8 @@ require 'culqi-ruby'
 
 class CulqiTest < Minitest::Test
 
-  Culqi.code_commerce = ENV['CODE_COMMERCE']
-  Culqi.api_key = ENV['API_KEY']
+  Culqi.code_commerce = 'pk_test_vzMuTHoueOMlgUPj' #ENV['CODE_COMMERCE']
+  Culqi.api_key = 'sk_test_UTCQSGcXW8bCyU59' #ENV['API_KEY']
 
   def getToken
 
@@ -47,7 +47,7 @@ class CulqiTest < Minitest::Test
     plan = Culqi::Plan.create(
       :amount => 1000,
       :currency_code => 'PEN',
-      :interval => 'days',
+      :interval => 'dias',
       :interval_count => 2,
       :limit => 10,
       :metadata => ({
