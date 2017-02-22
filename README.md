@@ -23,8 +23,8 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 require 'securerandom'
 require 'culqi-ruby'
 
-Culqi.code_commerce = 'pk_test_vzMuTHoueOMlgUPj'
-Culqi.api_key = 'sk_test_UTCQSGcXW8bCyU59'
+Culqi.public_key = 'pk_test_vzMuTHoueOMlgUPj'
+Culqi.secret_key = 'sk_test_UTCQSGcXW8bCyU59'
 
 ```
 
