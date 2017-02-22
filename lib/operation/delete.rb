@@ -7,7 +7,7 @@ module Delete
   end
 
   def delete(id)
-    response = Culqi.connect(@url+id+'/', Culqi.api_key, nil, 'delete')
+    response = Culqi.connect(@url+id+'/', Culqi.secret_key, nil, 'delete', Culqi::READ_TIMEOUT)
     return response.read_body
   end
 

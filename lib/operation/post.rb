@@ -9,11 +9,11 @@ module Post
   def create(params={})
     key = ''
     if @url.include? 'token'
-      key = Culqi.code_commerce
+      key = Culqi.public_key
     else
-      key = Culqi.api_key
+      key = Culqi.secret_key
     end
-    response = Culqi.connect(@url, key, params, 'post')
+    response = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT)
     return response.read_body
   end
 

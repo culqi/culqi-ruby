@@ -1,3 +1,7 @@
+### 0.0.5 22-02-2017
+* Add LIST_TIMEOUT for List method
+* rename code_commerce to public_key and api_key to secret_key
+
 ### 0.0.4 13-02-2017
 * Add Card
 * Add Customer

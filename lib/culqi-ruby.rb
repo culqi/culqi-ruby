@@ -20,9 +20,10 @@ module Culqi
 
   API_BASE = 'https://api.culqi.com/v2'
   READ_TIMEOUT = 120
+  LIST_TIMEOUT = 360
 
   class << self
-      attr_accessor :code_commerce, :api_key
+      attr_accessor :public_key, :secret_key
   end
 
 end

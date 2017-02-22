@@ -7,7 +7,7 @@ module List
   end
 
   def list(params={})
-    response = Culqi.connect(@url, Culqi.api_key, params, 'get')
+    response = Culqi.connect(@url, Culqi.secret_key, params, 'get', Culqi::LIST_TIMEOUT)
     return response.read_body
   end
 
