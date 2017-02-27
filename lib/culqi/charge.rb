@@ -10,8 +10,8 @@ module Culqi
 
     @url = URL
 
-    def capture(id)
-      response = Culqi.connect(URL+id+"/capture/", Culqi.api_key, nil, "post")
+    def self.capture(id)
+      response = Culqi.connect(URL+id+"/capture/", Culqi.secret_key, nil, "post", Culqi::READ_TIMEOUT)
       return response.read_body
     end
 
