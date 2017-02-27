@@ -6,7 +6,7 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.0.4](https://rubygems.org/gems/culqi-ruby) (2017-02-13) |[v2](https://beta.culqi.com)|
+| [0.0.6](https://rubygems.org/gems/culqi-ruby) (2017-02-27) |[v2](https://culqi.com/api)|
 
 ## Requisitos
 
@@ -23,8 +23,8 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 require 'securerandom'
 require 'culqi-ruby'
 
-Culqi.public_key = 'pk_test_vzMuTHoueOMlgUPj'
-Culqi.secret_key = 'sk_test_UTCQSGcXW8bCyU59'
+Culqi.public_key = '{LLAVE_PUBLICA}'
+Culqi.secret_key = '{LLAVE_SECRETA}'
 
 ```
 
@@ -43,7 +43,7 @@ token = Culqi::Token.create(
 
 jsonToken = JSON.parse(token)
 
-puts jsonToken["id"]
+puts jsonToken['id']
 
 ```
 
@@ -54,14 +54,14 @@ puts jsonToken["id"]
 charge = Culqi::Charge.create(
     :amount => 1000,
     :capture => true,
-    :currency_code => "PEN",
-    :description => "Venta de prueba",
+    :currency_code => 'PEN',
+    :description => 'Venta de prueba',
     :email => 'wmuro@me.com',
     :installments => 0,
     :metadata => ({
         :test => 'test123'
     }),
-    :source_id => jsonToken["id"]
+    :source_id => jsonToken['id']
 )
 
 jsonCharge = JSON.parse(charge)
@@ -113,8 +113,8 @@ jsonCustomer = JSON.parse(customer)
 
 ```ruby
 card = Culqi::Card.create(
-  :customer_id => jsonCustomer["id"],
-  :token_id => jsonToken["id"]
+  :customer_id => jsonCustomer['id'],
+  :token_id => jsonToken['id']
 )
 
 jsonCard = JSON.parse(card)
@@ -126,8 +126,8 @@ jsonCard = JSON.parse(card)
 ```ruby
 
 subscription = Culqi::Subscription.create(
-  :card_id => jsonCard["id"],
-  :plan_id => jsonPlan["id"]
+  :card_id => jsonCard['id'],
+  :plan_id => jsonPlan['id']
 )
 
 jsonSubscription = JSON.parse(subscription)
@@ -140,13 +140,16 @@ jsonSubscription = JSON.parse(subscription)
 
 refund = Culqi::Refund.create(
   :amount => 500,
-  :charge_id => jsonCharge["id"],
-  :reason => "bought an incorrect product"
+  :charge_id => jsonCharge['id'],
+  :reason => 'solicitud_comprador'
 )
 
 jsonRefund = JSON.parse(refund)
 
 ```
+
+## Documentación
+¿Necesitas más información para integrar `culqi-ruby`? La documentación completa se encuentra en [https://culqi.com/docs/](https://culqi.com/docs/)
 
 ## Build
 
@@ -155,7 +158,6 @@ gem build culqi-ruby.gemspec
 gem install ./culqi-ruby-{VERSION}.gem
 gem push culqi-ruby-{VERSION}.gem
 ```
-
 
 ## Changelog
 

@@ -1,3 +1,7 @@
+### 0.0.6 27-02-2017
+* Add delete method to Plan
+* Fix Charge.capture method
+
 ### 0.0.5 22-02-2017
 * Add LIST_TIMEOUT for List method
 * rename code_commerce to public_key and api_key to secret_key
