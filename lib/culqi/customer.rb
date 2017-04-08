@@ -6,6 +6,7 @@ module Culqi
     extend Post
     extend Delete
     extend Get
+    extend Update
 
     URL = '/customers/'
 

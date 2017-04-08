@@ -1,3 +1,6 @@
+### 0.0.7 08-04-2017
+* Add update method to Customer
+
 ### 0.0.6 27-02-2017
 * Add delete method to Plan
 * Fix Charge.capture method
