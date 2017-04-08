@@ -6,7 +6,7 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.0.6](https://rubygems.org/gems/culqi-ruby) (2017-02-27) |[v2](https://culqi.com/api)|
+| [0.0.7](https://rubygems.org/gems/culqi-ruby) (2017-02-27) |[v2](https://culqi.com/api)|
 
 ## Requisitos
 
@@ -16,7 +16,7 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 ## Ejemplos
 
-### Inicialización
+### Inicialización
 
 ```ruby
 
@@ -107,6 +107,20 @@ customer = Culqi::Customer.create(
 
 jsonCustomer = JSON.parse(customer)
 
+```
+
+### Actualizar Costumer
+
+```ruby
+updatecustomer = Culqi::Customer.update('cus_test_F5voBd1yHsCkjSwF',
+      :address => 'Av. Lima 123',
+      :first_name => 'Will')
+```
+
+### Obtener Costumer
+
+```ruby
+getcustomer = Culqi::Customer.get('cus_test_F5voBd1yHsCkjSwF')
 ```
 
 ### Crear Card
