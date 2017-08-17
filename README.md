@@ -191,4 +191,4 @@ Willy Aguirre ([@marti1125](https://github.com/marti1125) - Team Culqi)
 
 ## Licencia
 
-El código fuente de culqi-python está distribuido bajo MIT License, revisar el archivo [LICENSE](https://github.com/culqi/culqi-ruby/blob/master/LICENSE).
+El código fuente de culqi-ruby está distribuido bajo MIT License, revisar el archivo [LICENSE](https://github.com/culqi/culqi-ruby/blob/master/LICENSE).
