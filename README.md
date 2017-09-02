@@ -11,7 +11,7 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 ## Requisitos
 
 - Ruby >= 2.0.0
-- Credenciales de comercio en Culqi (1).
+- Credenciales de comercio en Culqi [1](https://www.culqi.com/docs/#/cuenta/cuenta).
 
 
 ## Ejemplos
