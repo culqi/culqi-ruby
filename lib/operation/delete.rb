@@ -1,6 +1,6 @@
 require 'util/connect'
 
-module Delete
+module Culqi::Delete
 
   def initialize
     @url = ''

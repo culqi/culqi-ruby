@@ -1,6 +1,6 @@
 require 'util/connect'
 
-module Post
+module Culqi::Post
 
   def initialize
     @url = ''

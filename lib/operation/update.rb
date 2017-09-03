@@ -1,6 +1,6 @@
 require 'util/connect'
 
-module Update
+module Culqi::Update
 
   def initialize
     @url = ''
