@@ -8,7 +8,7 @@ module Culqi
 
   def self.connect(url, api_key, data, type, time_out)
 
-    url = URI(Culqi::API_BASE+"#{url}")
+    url = URI("#{Culqi::API_BASE}#{url}")
 
     http = Net::HTTP.new(url.host, url.port)
     http.read_timeout = time_out
