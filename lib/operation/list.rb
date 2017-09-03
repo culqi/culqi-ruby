@@ -1,6 +1,6 @@
 require 'util/connect'
 
-module List
+module Culqi::List
 
   def initialize
     @url = ''
