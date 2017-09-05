@@ -5,8 +5,8 @@ require 'culqi-ruby'
 
 class CulqiTest < Minitest::Test
 
-  Culqi.public_key = ENV['LLAVE_PUBLICA']
-  Culqi.secret_key = ENV['LLAVE_SECRETA']
+  Culqi.public_key = ENV['PUBLIC_KEY']
+  Culqi.secret_key = ENV['SECRET_KEY']
 
   def getToken
 
