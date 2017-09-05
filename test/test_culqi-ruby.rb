@@ -1,12 +1,7 @@
-gem 'minitest'
-require 'minitest/autorun'
+require 'test_helper'
 require 'securerandom'
-require 'culqi-ruby'
 
 class CulqiTest < Minitest::Test
-
-  Culqi.public_key = ENV['PUBLIC_KEY']
-  Culqi.secret_key = ENV['SECRET_KEY']
 
   def getToken
 
