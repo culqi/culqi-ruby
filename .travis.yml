@@ -2,7 +2,7 @@ language: ruby
 
 rvm:
   - 2.0.0
-  - 2.1.0
+  - 2.1
   - 2.2.0
   - 2.3.0
   - 2.4.0
@@ -11,8 +11,6 @@ notifications:
   email:
     on_success: never
 
-install: gem install minitest culqi-ruby
-
-script: rake test
+script: bundle exec rake test
 
 sudo: false
