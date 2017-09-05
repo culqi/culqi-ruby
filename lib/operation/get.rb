@@ -1,6 +1,6 @@
 require 'util/connect'
 
-module Get
+module Culqi::Get
 
   def initialize
     @url = ''
