@@ -11,7 +11,7 @@ notifications:
   email:
     on_success: never
 
-install: gem install bundle culqi-ruby
+install: gem install bundler culqi-ruby
 
 script: bundle exec rake test
 
