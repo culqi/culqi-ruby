@@ -5,7 +5,7 @@ require 'culqi/version'
 Gem::Specification.new do |s|
   s.name          = 'culqi-ruby'
   s.version       = Culqi::VERSION
-  s.date          = '2017-04-08'
+  s.date          = '2017-09-04'
   s.summary       = "Culqi Ruby"
   s.description   = "Biblioteca de Culqi en Ruby API v2"
   s.authors       = ["Willy Aguirre"]
