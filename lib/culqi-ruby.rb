@@ -15,6 +15,7 @@ require 'culqi/plan'
 require 'culqi/subscription'
 require 'culqi/refund'
 require 'culqi/transfer'
+require 'culqi/order'
 
 module Culqi
 
