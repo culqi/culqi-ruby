@@ -6,12 +6,12 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.0.7](https://rubygems.org/gems/culqi-ruby) (2017-04-08) |[v2](https://culqi.com/api)|
+| [0.0.8](https://rubygems.org/gems/culqi-ruby) (2017-09-04) |[v2](https://culqi.com/api)|
 
 ## Requisitos
 
 - Ruby >= 2.0.0
-- Credenciales de comercio en Culqi (1).
+- Credenciales de comercio en Culqi [1](https://www.culqi.com/docs/#/cuenta/cuenta).
 
 
 ## Ejemplos
@@ -191,4 +191,4 @@ Willy Aguirre ([@marti1125](https://github.com/marti1125) - Team Culqi)
 
 ## Licencia
 
-El código fuente de culqi-python está distribuido bajo MIT License, revisar el archivo [LICENSE](https://github.com/culqi/culqi-ruby/blob/master/LICENSE).
+El código fuente de culqi-ruby está distribuido bajo MIT License, revisar el archivo [LICENSE](https://github.com/culqi/culqi-ruby/blob/master/LICENSE).

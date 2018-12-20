@@ -1,12 +1,7 @@
-gem 'minitest'
-require 'minitest/autorun'
+require 'test_helper'
 require 'securerandom'
-require 'culqi-ruby'
 
 class CulqiTest < Minitest::Test
-
-  Culqi.public_key = ENV['LLAVE_PUBLICA']
-  Culqi.secret_key = ENV['LLAVE_SECRETA']
 
   def getToken
 
@@ -111,6 +106,24 @@ class CulqiTest < Minitest::Test
     )
     return JSON.parse(refund)
   end
+
+  def getOrder
+    order = Culqi::Order.create(
+      :amount => 1000,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :order_number => 'prueba-999',
+      :client_details => ({
+        :first_name => 'Richard',
+        :last_name => 'Meza',
+        :email => 'test'+SecureRandom.uuid+'@culqi.com',
+        :phone_number => 998989789
+      }),
+      :expiration_date => 2323423432,
+      :confirm => false
+    )
+    return JSON.parse(order)
+  end  
 
   def test_1_token
     assert_equal 'token', getToken['object']

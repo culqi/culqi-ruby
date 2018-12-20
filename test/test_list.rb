@@ -1,10 +1,6 @@
-gem 'minitest'
-require 'minitest/autorun'
-require 'culqi-ruby'
+require 'test_helper'
 
 class TestList < Minitest::Test
-
-  Culqi.secret_key = ENV['LLAVE_SECRETA']
 
   def test_tokens
     assert_operator JSON.parse(Culqi::Token.list())['data'].count, :>=, 0
@@ -24,10 +20,6 @@ class TestList < Minitest::Test
 
   def test_cards
     assert_operator JSON.parse(Culqi::Card.list())['data'].count, :>=, 0
-  end
-
-  def test_subscriptions
-    assert_operator JSON.parse(Culqi::Subscription.list())['data'].count, :>=, 0
   end
 
   def test_refunds
