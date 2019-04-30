@@ -6,7 +6,7 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.0.8](https://rubygems.org/gems/culqi-ruby) (2017-09-04) |[v2](https://culqi.com/api)|
+| [0.1.0](https://rubygems.org/gems/culqi-ruby) (2019-04-30) |[v2](https://culqi.com/api)|
 
 ## Requisitos
 

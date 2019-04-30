@@ -1,3 +1,6 @@
+### 0.1.0 30-04-2019
+* Adding new URL base secure for Tokens. 
+
 ### 0.0.8 04-09-2017
 * Use Culqi module to scope operations
 * Use interpolation to concatenate strings
