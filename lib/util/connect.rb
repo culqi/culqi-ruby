@@ -6,9 +6,13 @@ require 'culqi-ruby'
 
 module Culqi
 
-  def self.connect(url, api_key, data, type, time_out)
+  def self.connect(url, api_key, data, type, time_out, secure_url = false)    
 
-    url = URI("#{Culqi::API_BASE}#{url}")
+    if secure_url == true 
+      url = URI("#{Culqi::API_BASE_SECURE}#{url}")
+    else 
+      url = URI("#{Culqi::API_BASE}#{url}")  
+    end      
 
     http = Net::HTTP.new(url.host, url.port)
     http.read_timeout = time_out
