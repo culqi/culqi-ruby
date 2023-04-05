@@ -1,43 +1,71 @@
 require 'test_helper'
 require 'securerandom'
+require 'json'
 
 class CulqiTest < Minitest::Test
 
-  def getToken
+  def createYape
+
+    yape = Culqi::Yape.create(
+      :amount => '1000',
+      :fingerprint => '86d3c875769bf62b0471b47853bfda77',
+      :number_phone => '900000001',
+      :otp => '111111'
+    )
+    return JSON.parse(yape)
+
+  end
+  def createToken
 
     token = Culqi::Token.create(
       :card_number => '4111111111111111',
       :cvv => '123',
       :currency_code => 'PEN',
-      :email => 'test@culqi.com',
-      :expiration_month => 9,
-      :expiration_year => 2020
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :expiration_month => 12,
+      :expiration_year => 2026
     )
-
     return JSON.parse(token)
 
   end
 
-  def getCharge
+  def createCharge
 
     charge = Culqi::Charge.create(
       :amount => 1000,
       :capture => false,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :email => 'wmuro@me.com',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
       :installments => 0,
       :metadata => ({
           :test => 'test123'
       }),
-      :source_id => getToken['id']
+      :source_id => createToken['id']
     )
-
     return JSON.parse(charge)
 
   end
 
-  def getPlan
+  def createOrder
+    order = Culqi::Order.create(
+      :amount => 1000,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :order_number => 'pedido-999002',
+      :client_details => ({
+        :first_name => 'Richard',
+        :last_name => 'Hendricks',
+        :email => 'richard@piedpiper.com',
+        :phone_number => '+51945145280'
+      }),
+      :expiration_date => '1683248919'
+    )
+    return JSON.parse(order)
+
+  end
+
+  def createPlan
 
     plan = Culqi::Plan.create(
       :amount => 1000,
@@ -56,7 +84,7 @@ class CulqiTest < Minitest::Test
 
   end
 
-  def getCustomer
+  def createCustomer
 
     customer = Culqi::Customer.create(
       :address => 'Avenida Lima 123213',
@@ -75,11 +103,11 @@ class CulqiTest < Minitest::Test
 
   end
 
-  def getCard
+  def createCard
 
     card = Culqi::Card.create(
-      :customer_id => getCustomer['id'],
-      :token_id => getToken['id']
+      :customer_id => createCustomer['id'],
+      :token_id => createToken['id']
     )
 
     return JSON.parse(card)
@@ -87,106 +115,138 @@ class CulqiTest < Minitest::Test
   end
 
 
-  def getSubscription
+  def createSubscription
 
     subscription = Culqi::Subscription.create(
-      :card_id => getCard['id'],
-      :plan_id => getPlan['id']
+      :card_id => createCard['id'],
+      :plan_id => createPlan['id']
     )
 
     return JSON.parse(subscription)
 
   end
 
-  def getRefund
+  def createRefund
     refund = Culqi::Refund.create(
       :amount => 500,
-      :charge_id => getCharge['id'],
+      :charge_id => createCharge['id'],
       :reason => 'solicitud_comprador'
     )
     return JSON.parse(refund)
   end
 
-  def test_1_token
-    assert_equal 'token', getToken['object']
+  def confirmOrder
+    confirmOrder = Culqi::Order.confirm(
+      :order_id => 'ord_live_7QmBi7Sh1ctxAe5s',
+      :order_types => ([
+        "cuotealo",
+        "cip"
+      ])
+    )
+    puts confirmOrder
+    return JSON.parse(confirmOrder)
   end
 
-  def test_2_charge
-    assert_equal 'charge', getCharge['object']
+  def test_create_yape
+    assert_equal 'token', createYape['object']
+  end
+  def test_create_token
+    assert_equal 'token', createToken['object']
   end
 
-  def test_3_plan
-    assert_equal "plan", getPlan['object']
+  def test_create_charge
+    assert_equal 'charge', createCharge['object']
   end
 
-  def test_4_customer
-    assert_equal 'customer', getCustomer['object']
+  def test_create_order
+    assert_equal 'order', createOrder['object']
   end
 
-  def test_5_card
-    assert_equal 'card', getCard['object']
+  def test_create_plan
+    assert_equal "plan", createPlan['object']
   end
 
-  def test_6_subscription
-    assert_equal 'subscription', getSubscription['object']
+  def test_create_customer
+    assert_equal 'customer', createCustomer['object']
   end
 
-  def test_7_refund
-    assert_equal 'refund', getRefund['object']
+  def test_create_card
+    assert_equal 'card', createCard['object']
+  end
+
+  def test_create_subscription
+    assert_equal 'subscription', createSubscription['object']
+  end
+
+  def test_create_refund
+    assert_equal 'refund', createRefund['object']
+  end
+
+  #CONFIRM ORDER
+  def test_confirm_order
+    assert_equal 'order', confirmOrder['object']
   end
 
   # GET RESOURCES
 
   def test_get_token
-    assert_equal 'token', JSON.parse(Culqi::Token.get(getToken['id']))['object']
+    assert_equal 'token', JSON.parse(Culqi::Token.get(createToken['id']))['object']
+  end
+
+  def test_get_order
+    assert_equal 'order', JSON.parse(Culqi::Token.get(createOrder['id']))['object']
   end
 
   def test_get_charge
-    assert_equal 'charge', JSON.parse(Culqi::Charge.get(getCharge['id']))['object']
+    assert_equal 'charge', JSON.parse(Culqi::Charge.get(createCharge['id']))['object']
   end
 
   def test_get_plan
-    assert_equal "plan", JSON.parse(Culqi::Plan.get(getPlan['id']))['object']
+    assert_equal "plan", JSON.parse(Culqi::Plan.get(createPlan['id']))['object']
   end
 
   def test_get_customer
-    assert_equal 'customer', JSON.parse(Culqi::Customer.get(getCustomer['id']))['object']
+    assert_equal 'customer', JSON.parse(Culqi::Customer.get(createCustomer['id']))['object']
   end
 
   def test_get_card
-    assert_equal 'card', JSON.parse(Culqi::Card.get(getCard['id']))['object']
+    assert_equal 'card', JSON.parse(Culqi::Card.get(createCard['id']))['object']
   end
 
   def test_get_subscription
-    assert_equal 'subscription', JSON.parse(Culqi::Subscription.get(getSubscription['id']))['object']
+    assert_equal 'subscription', JSON.parse(Culqi::Subscription.get(createSubscription['id']))['object']
   end
 
   def test_get_refund
-    assert_equal 'refund', JSON.parse(Culqi::Refund.get(getRefund['id']))['object']
+    assert_equal 'refund', JSON.parse(Culqi::Refund.get(createRefund['id']))['object']
   end
 
   # DELETE RESOURCES
 
   def test_delete_subscription
-    assert_equal true, JSON.parse(Culqi::Subscription.delete(getSubscription['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Subscription.delete(createSubscription['id']))['deleted']
   end
 
   def test_delete_plan
-    assert_equal true, JSON.parse(Culqi::Plan.delete(getPlan['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Plan.delete(createPlan['id']))['deleted']
   end
 
   def test_delete_card
-    assert_equal true, JSON.parse(Culqi::Card.delete(getCard['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Card.delete(createCard['id']))['deleted']
   end
 
   def test_delete_customer
-    assert_equal true, JSON.parse(Culqi::Customer.delete(getCustomer['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Customer.delete(createCustomer['id']))['deleted']
+  end
+
+  def test_delete_order
+    assert_equal true, JSON.parse(Culqi::Order.delete(createOrder['id']))['deleted']
   end
 
   # CAPTURE CHARGE
 
   def test_capture_charge
-    assert_equal 'charge', JSON.parse(Culqi::Charge.capture(getCharge['id']))['object']
+    assert_equal 'charge', JSON.parse(Culqi::Charge.capture(createCharge['id']))['object']
   end
 
 end
