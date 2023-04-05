@@ -3,6 +3,7 @@ require 'operation/get'
 require 'operation/post'
 require 'operation/delete'
 require 'operation/update'
+require 'operation/confirm_type'
 
 require 'culqi/version'
 require 'culqi/iins'
@@ -15,7 +16,8 @@ require 'culqi/plan'
 require 'culqi/subscription'
 require 'culqi/refund'
 require 'culqi/transfer'
-
+require 'culqi/yape'
+require 'culqi/order'
 module Culqi
 
   API_BASE = 'https://api.culqi.com/v2'
