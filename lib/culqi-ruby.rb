@@ -15,11 +15,12 @@ require 'culqi/plan'
 require 'culqi/subscription'
 require 'culqi/refund'
 require 'culqi/transfer'
-
+require 'culqi/yape'
+require 'culqi/order'
 module Culqi
 
-  API_BASE = 'https://api.culqi.com/v2'
-  API_BASE_SECURE = 'https://secure.culqi.com/v2'
+  API_BASE = 'https://qa-api.culqi.xyz/v2'
+  API_BASE_SECURE = 'https://qa-api.culqi.xyz/v2'
   READ_TIMEOUT = 120
   LIST_TIMEOUT = 360
 
