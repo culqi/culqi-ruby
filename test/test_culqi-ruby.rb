@@ -18,8 +18,8 @@ class CulqiTest < Minitest::Test
   def getToken
 
     token = Culqi::Token.create(
-      :card_number => '4456530000001070',
-      :cvv => '973',
+      :card_number => '4111111111111111',
+      :cvv => '123',
       :currency_code => 'PEN',
       :email => 'test'+SecureRandom.uuid+'@culqi.com',
       :expiration_month => 12,
