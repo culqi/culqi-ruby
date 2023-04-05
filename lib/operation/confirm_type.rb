@@ -1,6 +1,6 @@
 require 'util/connect'
 
-module Culqi::Confirm
+module Culqi::ConfirmType
 
   def initialize
     @url = ''
