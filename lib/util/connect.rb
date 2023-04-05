@@ -45,6 +45,7 @@ module Culqi
       request.body = data.to_json
     end
 
+
     request["Authorization"] = "Bearer #{api_key}"
     request["Content-Type"] = 'application/json'
     request["cache-control"] = 'no-cache'

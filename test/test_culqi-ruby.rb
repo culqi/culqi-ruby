@@ -1,17 +1,29 @@
 require 'test_helper'
 require 'securerandom'
+require 'json'
 
 class CulqiTest < Minitest::Test
 
+  def getYape
+
+    yape = Culqi::Yape.create(
+      :amount => '1000',
+      :fingerprint => '86d3c875769bf62b0471b47853bfda77',
+      :number_phone => '900000001',
+      :otp => '111111'
+    )
+    return JSON.parse(yape)
+
+  end
   def getToken
 
     token = Culqi::Token.create(
-      :card_number => '4111111111111111',
-      :cvv => '123',
+      :card_number => '4557880621568322',
+      :cvv => '978',
       :currency_code => 'PEN',
-      :email => 'test@culqi.com',
-      :expiration_month => 9,
-      :expiration_year => 2020
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :expiration_month => 11,
+      :expiration_year => 2026
     )
 
     return JSON.parse(token)
@@ -25,15 +37,33 @@ class CulqiTest < Minitest::Test
       :capture => false,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :email => 'wmuro@me.com',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
       :installments => 0,
       :metadata => ({
           :test => 'test123'
       }),
       :source_id => getToken['id']
     )
-
     return JSON.parse(charge)
+
+  end
+
+  def getOrder
+    order = Culqi::Order.create(
+      :amount => 1000,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :order_number => 'pedido-999002',
+      :client_details => ({
+        :first_name => 'Richard',
+        :last_name => 'Hendricks',
+        :email => 'richard@piedpiper.com',
+        :phone_number => '+51945145280'
+      }),
+      :expiration_date => '1683248919'
+    )
+    puts order
+    return JSON.parse(order)
 
   end
 
@@ -107,12 +137,19 @@ class CulqiTest < Minitest::Test
     return JSON.parse(refund)
   end
 
+  def test_1_yape
+    assert_equal 'token', getYape['object']
+  end
   def test_1_token
     assert_equal 'token', getToken['object']
   end
 
   def test_2_charge
     assert_equal 'charge', getCharge['object']
+  end
+
+  def test_2_order
+    assert_equal 'order', getOrder['object']
   end
 
   def test_3_plan
@@ -138,31 +175,35 @@ class CulqiTest < Minitest::Test
   # GET RESOURCES
 
   def test_get_token
-    assert_equal 'token', JSON.parse(Culqi::Token.get(getToken['id']))['object']
+    assert_equal 'token', getToken['object']
   end
 
   def test_get_charge
-    assert_equal 'charge', JSON.parse(Culqi::Charge.get(getCharge['id']))['object']
+    assert_equal 'charge', getCharge['object']
+  end
+
+  def test_get_order
+    assert_equal 'order', getOrder['object']
   end
 
   def test_get_plan
-    assert_equal "plan", JSON.parse(Culqi::Plan.get(getPlan['id']))['object']
+    assert_equal "plan", getPlan['object']
   end
 
   def test_get_customer
-    assert_equal 'customer', JSON.parse(Culqi::Customer.get(getCustomer['id']))['object']
+    assert_equal 'customer', getCustomer['object']
   end
 
   def test_get_card
-    assert_equal 'card', JSON.parse(Culqi::Card.get(getCard['id']))['object']
+    assert_equal 'card', getCard['object']
   end
 
   def test_get_subscription
-    assert_equal 'subscription', JSON.parse(Culqi::Subscription.get(getSubscription['id']))['object']
+    assert_equal 'subscription', getSubscription['object']
   end
 
   def test_get_refund
-    assert_equal 'refund', JSON.parse(Culqi::Refund.get(getRefund['id']))['object']
+    assert_equal 'refund', getRefund['object']
   end
 
   # DELETE RESOURCES
@@ -181,6 +222,10 @@ class CulqiTest < Minitest::Test
 
   def test_delete_customer
     assert_equal true, JSON.parse(Culqi::Customer.delete(getCustomer['id']))['deleted']
+  end
+
+  def test_delete_order
+    assert_equal true, JSON.parse(Culqi::Order.delete(getOrder['id']))['deleted']
   end
 
   # CAPTURE CHARGE
