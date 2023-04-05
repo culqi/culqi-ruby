@@ -178,6 +178,10 @@ class CulqiTest < Minitest::Test
     assert_equal 'token', JSON.parse(Culqi::Token.get(getToken['id']))['object']
   end
 
+  def test_get_order
+    assert_equal 'order', JSON.parse(Culqi::Token.get(getOrder['id']))['object']
+  end
+
   def test_get_charge
     assert_equal 'charge', JSON.parse(Culqi::Charge.get(getCharge['id']))['object']
   end
