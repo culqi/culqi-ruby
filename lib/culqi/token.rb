@@ -2,7 +2,9 @@ module Culqi
 
   class Token
 
+    extend List
     extend Post
+    extend Get
 
     URL = '/tokens/'
 
