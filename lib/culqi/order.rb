@@ -5,6 +5,7 @@ module Culqi
     extend List
     extend Post
     extend Get
+    extend Confirm
 
     URL = '/orders/'
 
