@@ -135,6 +135,18 @@ class CulqiTest < Minitest::Test
     return JSON.parse(refund)
   end
 
+  def confirmOrder
+    confirmOrder = Culqi::Order.confirm(
+      :order_id => 'ord_live_7QmBi7Sh1ctxAe5s',
+      :order_types => ([
+        "cuotealo",
+        "cip"
+      ])
+    )
+    puts confirmOrder
+    return JSON.parse(confirmOrder)
+  end
+
   def test_create_yape
     assert_equal 'token', createYape['object']
   end
@@ -168,6 +180,11 @@ class CulqiTest < Minitest::Test
 
   def test_create_refund
     assert_equal 'refund', createRefund['object']
+  end
+
+  #CONFIRM ORDER
+  def test_confirm_order
+    assert_equal 'order', confirmOrder['object']
   end
 
   # GET RESOURCES

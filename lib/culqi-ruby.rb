@@ -3,6 +3,7 @@ require 'operation/get'
 require 'operation/post'
 require 'operation/delete'
 require 'operation/update'
+require 'operation/confirm'
 
 require 'culqi/version'
 require 'culqi/iins'
