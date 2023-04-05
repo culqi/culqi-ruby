@@ -6,13 +6,19 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.1.0](https://rubygems.org/gems/culqi-ruby) (2019-04-30) |[v2](https://culqi.com/api)|
+| [0.1.0](https://rubygems.org/gems/culqi-ruby) (2023-04-05) |[v2](https://culqi.com/api)|
 
-## Requisitos
+## Requirimientos
 
 - Ruby >= 2.0.0
-- Credenciales de comercio en Culqi [1](https://www.culqi.com/docs/#/cuenta/cuenta).
+- Afiliate [aquí](https://afiliate.culqi.com/).
+- Si vas a realizar pruebas obtén tus llaves desde [aquí](https://integ-panel.culqi.com/#/registro), si vas a realizar transacciones reales obtén tus llaves desde [aquí](https://panel.culqi.com/#/registro).
 
+> Recuerda que para obtener tus llaves debes ingresar a tu CulqiPanel > Desarrollo > ***API Keys***.
+
+![alt tag](http://i.imgur.com/NhE6mS9.png)
+
+> Recuerda que las credenciales son enviadas al correo que registraste en el proceso de afiliación.
 
 ## Ejemplos
 
