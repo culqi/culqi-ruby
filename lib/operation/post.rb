@@ -8,6 +8,7 @@ module Culqi::Post
 
   def create(params={})
     key = ''
+    puts params
     if @url.include? 'token'
       key = Culqi.public_key 
       response = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, true)

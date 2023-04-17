@@ -4,6 +4,19 @@ require 'json'
 
 class CulqiTest < Minitest::Test
 
+  def createTokenEncrypt
+
+    token = Culqi::Token.createEncrypt(
+      :card_number => '4557880621568322',
+      :cvv => '978',
+      :currency_code => 'PEN',
+      :email => 'test1231@culqi.com',
+      :expiration_month => 11,
+      :expiration_year => 2026
+    )
+    puts token
+    return JSON.parse(token)
+  end
   def createYape
 
     yape = Culqi::Yape.create(
@@ -12,19 +25,21 @@ class CulqiTest < Minitest::Test
       :number_phone => '900000001',
       :otp => '111111'
     )
+
     return JSON.parse(yape)
 
   end
   def createToken
 
     token = Culqi::Token.create(
-      :card_number => '4111111111111111',
-      :cvv => '123',
+      :card_number => '4557880621568322',
+      :cvv => '978',
       :currency_code => 'PEN',
-      :email => 'test'+SecureRandom.uuid+'@culqi.com',
-      :expiration_month => 12,
+      :email => 'test1231@culqi.com',
+      :expiration_month => 11,
       :expiration_year => 2026
     )
+    puts token
     return JSON.parse(token)
 
   end
@@ -147,6 +162,9 @@ class CulqiTest < Minitest::Test
     return JSON.parse(confirmOrder)
   end
 
+  def test_create_token_encrypt
+    assert_equal 'token', createTokenEncrypt['object']
+  end
   def test_create_yape
     assert_equal 'token', createYape['object']
   end
