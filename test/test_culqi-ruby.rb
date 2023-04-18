@@ -62,8 +62,44 @@ class CulqiTest < Minitest::Test
 
   end
 
+  def createChargeEncrypt
+
+    charge = Culqi::Charge.createEncrypt(
+      :amount => 1000,
+      :capture => false,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :installments => 0,
+      :metadata => ({
+        :test => 'test123'
+      }),
+      :source_id => createToken['id']
+    )
+    return JSON.parse(charge)
+
+  end
+
   def createOrder
     order = Culqi::Order.create(
+      :amount => 1000,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :order_number => 'pedido-999002',
+      :client_details => ({
+        :first_name => 'Richard',
+        :last_name => 'Hendricks',
+        :email => 'richard@piedpiper.com',
+        :phone_number => '+51945145280'
+      }),
+      :expiration_date => '1683248919'
+    )
+    return JSON.parse(order)
+
+  end
+
+  def createOrderEncrypt
+    order = Culqi::Order.createEncrypt(
       :amount => 1000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
@@ -176,8 +212,16 @@ class CulqiTest < Minitest::Test
     assert_equal 'charge', createCharge['object']
   end
 
+  def test_create_charge_encrypt
+    assert_equal 'charge', createChargeEncrypt['object']
+  end
+
   def test_create_order
     assert_equal 'order', createOrder['object']
+  end
+
+  def test_create_order_encrypt
+    assert_equal 'order', createOrderEncrypt['object']
   end
 
   def test_create_plan
