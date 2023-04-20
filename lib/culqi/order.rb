@@ -7,7 +7,7 @@ module Culqi
     extend Get
     extend ConfirmType
 
-    URL = '/orders/'
+    URL = '/orders'
 
     @url = URL
 

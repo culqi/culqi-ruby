@@ -49,7 +49,7 @@ module Culqi
 
     request["Authorization"] = "Bearer #{api_key}"
     request["Content-Type"] = 'application/json'
-    request["x-culqi-rsa-id"] = 'INSERTE_SU_RSA_ID'
+    #request["x-culqi-rsa-id"] = 'INSERTE_SU_RSA_ID'
     request["cache-control"] = 'no-cache'
 
     if request.body && !request.body.empty?

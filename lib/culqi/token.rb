@@ -7,7 +7,7 @@ module Culqi
     extend Get
     extend Encrypt
 
-    URL = '/tokens/'
+    URL = '/tokens'
 
     @url = URL
 
