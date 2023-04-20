@@ -8,7 +8,7 @@ class CulqiTest < Minitest::Test
 
     token = Culqi::Token.createEncrypt(
       :card_number => '4557880621568322',
-      :cvv => '978',
+      :cvv => '111',
       :currency_code => 'PEN',
       :email => 'test1231@culqi.com',
       :expiration_month => 11,
@@ -33,7 +33,7 @@ class CulqiTest < Minitest::Test
 
     token = Culqi::Token.create(
       :card_number => '4557880621568322',
-      :cvv => '978',
+      :cvv => '111',
       :currency_code => 'PEN',
       :email => 'test1231@culqi.com',
       :expiration_month => 11,
@@ -58,6 +58,7 @@ class CulqiTest < Minitest::Test
       }),
       :source_id => createToken['id']
     )
+    puts charge
     return JSON.parse(charge)
 
   end
@@ -85,15 +86,16 @@ class CulqiTest < Minitest::Test
       :amount => 1000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :order_number => 'pedido-999002',
+      :order_number => 'pedido-9990044449',
       :client_details => ({
         :first_name => 'Richard',
         :last_name => 'Hendricks',
-        :email => 'richard@piedpiper.com',
+        :email => 'richar3d@piedpiper.com',
         :phone_number => '+51945145280'
       }),
-      :expiration_date => '1683248919'
+      :expiration_date => '1682039645'
     )
+    puts order
     return JSON.parse(order)
 
   end
@@ -110,7 +112,7 @@ class CulqiTest < Minitest::Test
         :email => 'richard@piedpiper.com',
         :phone_number => '+51945145280'
       }),
-      :expiration_date => '1683248919'
+      :expiration_date => '1682039645'
     )
     return JSON.parse(order)
 

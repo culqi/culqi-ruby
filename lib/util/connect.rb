@@ -49,7 +49,7 @@ module Culqi
 
     request["Authorization"] = "Bearer #{api_key}"
     request["Content-Type"] = 'application/json'
-    request["x-culqi-rsa-id"] = 'ac3af62d-f16a-4244-be2a-bbf529f339db'
+    #request["x-culqi-rsa-id"] = 'ac3af62d-f16a-4244-be2a-bbf529f339db'
     request["cache-control"] = 'no-cache'
 
     if request.body && !request.body.empty?
