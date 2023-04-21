@@ -5,67 +5,55 @@ require 'json'
 class CulqiTest < Minitest::Test
 
   def createTokenEncrypt
-
-    token = Culqi::Token.createEncrypt(
+    rsa_key = Culqi.rsa_key
+    rsa_id = Culqi.rsa_id
+    params ={
       :card_number => '4557880621568322',
       :cvv => '111',
       :currency_code => 'PEN',
       :email => 'test1231@culqi.com',
       :expiration_month => 11,
       :expiration_year => 2026
-    )
+    }
+    token = Culqi::Token.create(params, true, rsa_key, rsa_id)
     puts token
     return JSON.parse(token)
   end
   def createYape
-
-    yape = Culqi::Yape.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :amount => '1000',
       :fingerprint => '86d3c875769bf62b0471b47853bfda77',
       :number_phone => '900000001',
       :otp => '111111'
-    )
+    }
 
+    yape = Culqi::Token.create(params, false, rsa_key, rsa_id)
     return JSON.parse(yape)
 
   end
   def createToken
-
-    token = Culqi::Token.create(
+    rsa_key = ''
+    rsa_id = ''
+    params ={
       :card_number => '4557880621568322',
       :cvv => '111',
       :currency_code => 'PEN',
       :email => 'test1231@culqi.com',
       :expiration_month => 11,
       :expiration_year => 2026
-    )
+    }
+    token = Culqi::Token.create(params, false, rsa_key, rsa_id)
     puts token
     return JSON.parse(token)
 
   end
 
   def createCharge
-
-    charge = Culqi::Charge.create(
-      :amount => 1000,
-      :capture => false,
-      :currency_code => 'PEN',
-      :description => 'Venta de prueba',
-      :email => 'test'+SecureRandom.uuid+'@culqi.com',
-      :installments => 0,
-      :metadata => ({
-          :test => 'test123'
-      }),
-      :source_id => createToken['id']
-    )
-    puts charge
-    return JSON.parse(charge)
-
-  end
-
-  def createChargeEncrypt
-
-    charge = Culqi::Charge.createEncrypt(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :amount => 1000,
       :capture => false,
       :currency_code => 'PEN',
@@ -76,17 +64,41 @@ class CulqiTest < Minitest::Test
         :test => 'test123'
       }),
       :source_id => createToken['id']
-    )
+    }
+    charge = Culqi::Charge.create(params, false, rsa_key, rsa_id)
+    puts charge
+    return JSON.parse(charge)
+
+  end
+
+  def createChargeEncrypt
+    rsa_key = Culqi.rsa_key
+    rsa_id = Culqi.rsa_id
+    params = {
+      :amount => 1000,
+      :capture => false,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :installments => 0,
+      :metadata => ({
+        :test => 'test123'
+      }),
+      :source_id => createToken['id']
+    }
+    charge = Culqi::Charge.create(params, true, rsa_key, rsa_id)
     return JSON.parse(charge)
 
   end
 
   def createOrder
-    order = Culqi::Order.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :amount => 1000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :order_number => 'pedido-9990044449',
+      :order_number => 'pedido-9966690044449',
       :client_details => ({
         :first_name => 'Richard',
         :last_name => 'Hendricks',
@@ -94,14 +106,17 @@ class CulqiTest < Minitest::Test
         :phone_number => '+51945145280'
       }),
       :expiration_date => '1682039645'
-    )
+    }
+    order = Culqi::Order.create(params, false, rsa_key, rsa_id)
     puts order
     return JSON.parse(order)
 
   end
 
   def createOrderEncrypt
-    order = Culqi::Order.createEncrypt(
+    rsa_key = Culqi.rsa_key
+    rsa_id = Culqi.rsa_id
+    params  = {
       :amount => 1000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
@@ -113,33 +128,38 @@ class CulqiTest < Minitest::Test
         :phone_number => '+51945145280'
       }),
       :expiration_date => '1682039645'
-    )
+    }
+    order = Culqi::Order.create(params, true, rsa_key, rsa_id)
     return JSON.parse(order)
 
   end
 
   def createPlan
-
-    plan = Culqi::Plan.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :amount => 1000,
       :currency_code => 'PEN',
       :interval => 'dias',
       :interval_count => 2,
       :limit => 10,
       :metadata => ({
-          :alias => 'plan_test'
+        :alias => 'plan_test'
       }),
       :name => 'plan-test-'+SecureRandom.uuid,
       :trial_days => 50
-    )
+    }
+
+    plan = Culqi::Plan.create(params, false, rsa_key, rsa_id)
 
     return JSON.parse(plan)
 
   end
 
   def createCustomer
-
-    customer = Culqi::Customer.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :address => 'Avenida Lima 123213',
       :address_city => 'LIMA',
       :country_code => 'PE',
@@ -147,21 +167,24 @@ class CulqiTest < Minitest::Test
       :first_name => 'William',
       :last_name => 'Muro',
       :metadata => ({
-          :other_number => '789953655'
+        :other_number => '789953655'
       }),
       :phone_number => 998989789
-    )
+    }
+    customer = Culqi::Customer.create(params, false, rsa_key, rsa_id)
 
     return JSON.parse(customer)
 
   end
 
   def createCard
-
-    card = Culqi::Card.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :customer_id => createCustomer['id'],
       :token_id => createToken['id']
-    )
+    }
+    card = Culqi::Card.create(params, false, rsa_key, rsa_id)
 
     return JSON.parse(card)
 
@@ -169,22 +192,27 @@ class CulqiTest < Minitest::Test
 
 
   def createSubscription
-
-    subscription = Culqi::Subscription.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :card_id => createCard['id'],
       :plan_id => createPlan['id']
-    )
+    }
+    subscription = Culqi::Subscription.create(params, false, rsa_key, rsa_id)
 
     return JSON.parse(subscription)
 
   end
 
   def createRefund
-    refund = Culqi::Refund.create(
+    rsa_key = ''
+    rsa_id = ''
+    params = {
       :amount => 500,
       :charge_id => createCharge['id'],
       :reason => 'solicitud_comprador'
-    )
+    }
+    refund = Culqi::Refund.create(params, false, rsa_key, rsa_id)
     return JSON.parse(refund)
   end
 
