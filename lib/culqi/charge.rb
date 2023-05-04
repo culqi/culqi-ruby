@@ -6,7 +6,7 @@ module Culqi
     extend Post
     extend Get
 
-    URL = '/charges'
+    URL = '/charges/'
 
     @url = URL
 
