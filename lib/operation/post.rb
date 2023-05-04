@@ -1,16 +1,16 @@
 require 'util/connect'
-
+require 'util/encrypt-data'
 module Culqi::Post
 
   def initialize
     @url = ''
   end
 
-  def create(params={}, isEncrypt, rsa_key, rsa_id)
+  def create(params={}, rsa_key='', rsa_id='')
     key = ''
     puts params
     if @url.include? 'token'
-      if(isEncrypt)
+      if(rsa_key != '')
         rsa_key = rsa_key
         rsa_id = rsa_id
         params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)

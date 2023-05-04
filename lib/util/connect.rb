@@ -8,7 +8,7 @@ require 'open3'
 
 module Culqi
 
-  def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id)
+  def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id='')
 
     if secure_url == true 
       url = URI("#{Culqi::API_BASE_SECURE}#{url}")
@@ -57,17 +57,17 @@ module Culqi
         command = "curl '#{url}'"
       end
 
-      stdout, stderr, status = Open3.capture3("#{command} -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'x-culqi-rsa-id: ac3af62d-f16a-4244-be2a-bbf529f339db' -H 'cache-control: no-cache'")
+      stdout, stderr, status = Open3.capture3("#{command} -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'cache-control: no-cache'")
 
     end
 
     if type.upcase == 'DELETE'
-      command = "curl -X DELETE '#{url}' -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'x-culqi-rsa-id: ac3af62d-f16a-4244-be2a-bbf529f339db' -H 'cache-control: no-cache'"
+      command = "curl -X DELETE '#{url}' -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'cache-control: no-cache'"
       stdout, stderr, status = Open3.capture3(command)
     end
 
     if type.upcase == 'PATCH'
-      command = "curl -X PATCH '#{url}' -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'x-culqi-rsa-id: ac3af62d-f16a-4244-be2a-bbf529f339db' -H 'cache-control: no-cache' -d '#{data.to_json}'"
+      command = "curl -X PATCH '#{url}' -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'x-culqi-rsa-id: #{rsa_id}' -H 'cache-control: no-cache' -d '#{data.to_json}'"
       stdout, stderr, status = Open3.capture3(command)
     end
 

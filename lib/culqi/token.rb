@@ -5,9 +5,8 @@ module Culqi
     extend List
     extend Post
     extend Get
-    extend Encrypt
 
-    URL = '/tokens'
+    URL = '/tokens/'
 
     @url = URL
 

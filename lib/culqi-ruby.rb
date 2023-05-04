@@ -4,7 +4,6 @@ require 'operation/post'
 require 'operation/delete'
 require 'operation/update'
 require 'operation/confirm_type'
-require 'operation/encrypt'
 
 require 'culqi/version'
 require 'culqi/iins'

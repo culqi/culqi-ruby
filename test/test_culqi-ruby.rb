@@ -15,13 +15,11 @@ class CulqiTest < Minitest::Test
       :expiration_month => 11,
       :expiration_year => 2026
     }
-    token = Culqi::Token.create(params, true, rsa_key, rsa_id)
+    token = Culqi::Token.create(params,  rsa_key, rsa_id)
     puts token
     return JSON.parse(token)
   end
   def createYape
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :amount => '1000',
       :fingerprint => '86d3c875769bf62b0471b47853bfda77',
@@ -29,13 +27,11 @@ class CulqiTest < Minitest::Test
       :otp => '111111'
     }
 
-    yape = Culqi::Token.create(params, false, rsa_key, rsa_id)
+    yape = Culqi::Token.create(params)
     return JSON.parse(yape)
 
   end
   def createToken
-    rsa_key = ''
-    rsa_id = ''
     params ={
       :card_number => '4557880621568322',
       :cvv => '111',
@@ -44,15 +40,13 @@ class CulqiTest < Minitest::Test
       :expiration_month => 11,
       :expiration_year => 2026
     }
-    token = Culqi::Token.create(params, false, rsa_key, rsa_id)
+    token = Culqi::Token.create(params)
     puts token
     return JSON.parse(token)
 
   end
 
   def createCharge
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :amount => 1000,
       :capture => false,
@@ -65,7 +59,7 @@ class CulqiTest < Minitest::Test
       }),
       :source_id => createToken['id']
     }
-    charge = Culqi::Charge.create(params, false, rsa_key, rsa_id)
+    charge = Culqi::Charge.create(params)
     puts charge
     return JSON.parse(charge)
 
@@ -86,14 +80,12 @@ class CulqiTest < Minitest::Test
       }),
       :source_id => createToken['id']
     }
-    charge = Culqi::Charge.create(params, true, rsa_key, rsa_id)
+    charge = Culqi::Charge.create(params, rsa_key, rsa_id)
     return JSON.parse(charge)
 
   end
 
   def createOrder
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :amount => 1000,
       :currency_code => 'PEN',
@@ -107,7 +99,7 @@ class CulqiTest < Minitest::Test
       }),
       :expiration_date => '1682039645'
     }
-    order = Culqi::Order.create(params, false, rsa_key, rsa_id)
+    order = Culqi::Order.create(params)
     puts order
     return JSON.parse(order)
 
@@ -129,14 +121,12 @@ class CulqiTest < Minitest::Test
       }),
       :expiration_date => '1682039645'
     }
-    order = Culqi::Order.create(params, true, rsa_key, rsa_id)
+    order = Culqi::Order.create(params,  rsa_key, rsa_id)
     return JSON.parse(order)
 
   end
 
   def createPlan
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :amount => 1000,
       :currency_code => 'PEN',
@@ -150,15 +140,13 @@ class CulqiTest < Minitest::Test
       :trial_days => 50
     }
 
-    plan = Culqi::Plan.create(params, false, rsa_key, rsa_id)
+    plan = Culqi::Plan.create(params)
 
     return JSON.parse(plan)
 
   end
 
   def createCustomer
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :address => 'Avenida Lima 123213',
       :address_city => 'LIMA',
@@ -171,20 +159,18 @@ class CulqiTest < Minitest::Test
       }),
       :phone_number => 998989789
     }
-    customer = Culqi::Customer.create(params, false, rsa_key, rsa_id)
+    customer = Culqi::Customer.create(params)
 
     return JSON.parse(customer)
 
   end
 
   def createCard
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :customer_id => createCustomer['id'],
       :token_id => createToken['id']
     }
-    card = Culqi::Card.create(params, false, rsa_key, rsa_id)
+    card = Culqi::Card.create(params)
 
     return JSON.parse(card)
 
@@ -192,27 +178,23 @@ class CulqiTest < Minitest::Test
 
 
   def createSubscription
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :card_id => createCard['id'],
       :plan_id => createPlan['id']
     }
-    subscription = Culqi::Subscription.create(params, false, rsa_key, rsa_id)
+    subscription = Culqi::Subscription.create(params)
 
     return JSON.parse(subscription)
 
   end
 
   def createRefund
-    rsa_key = ''
-    rsa_id = ''
     params = {
       :amount => 500,
       :charge_id => createCharge['id'],
       :reason => 'solicitud_comprador'
     }
-    refund = Culqi::Refund.create(params, false, rsa_key, rsa_id)
+    refund = Culqi::Refund.create(params)
     return JSON.parse(refund)
   end
 

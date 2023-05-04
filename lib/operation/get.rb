@@ -8,7 +8,7 @@ module Culqi::Get
 
   def get(id)
     response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, nil, 'get', Culqi::READ_TIMEOUT)
-    return response.read_body
+    return response
   end
 
 end
