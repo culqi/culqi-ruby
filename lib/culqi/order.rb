@@ -6,6 +6,7 @@ module Culqi
     extend Post
     extend Get
     extend ConfirmType
+    extend Update
 
     URL = '/orders/'
 

@@ -105,6 +105,20 @@ class CulqiTest < Minitest::Test
 
   end
 
+  def updateOrder
+    id = 'ord_live_q9TujOO4KSf2kRNv'
+    params = {
+      :metadata => ({
+        :dni => '71701978'
+      }),
+      :expiration_date => '1682039645'
+    }
+    order = Culqi::Order.update(id, params)
+    puts order
+    return JSON.parse(order)
+
+  end
+
   def createOrderEncrypt
     rsa_key = Culqi.rsa_key
     rsa_id = Culqi.rsa_id
@@ -230,6 +244,10 @@ class CulqiTest < Minitest::Test
 
   def test_create_order
     assert_equal 'order', createOrder['object']
+  end
+
+  def test_update_order
+    assert_equal 'order', updateOrder['object']
   end
 
   def test_create_order_encrypt
