@@ -13,7 +13,7 @@ module Culqi::Update
       params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
     end
     response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, rsa_id)
-    return response.read_body
+    return response
   end
 
 end
