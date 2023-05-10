@@ -15,7 +15,7 @@ module Culqi::ConfirmType
     end
     key = Culqi.public_key
     response = Culqi.connect(@url+'confirm', key, params, 'post', Culqi::READ_TIMEOUT, false, rsa_id)
-    return response.read_body
+    return response
   end
 
 end
