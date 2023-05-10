@@ -23,7 +23,7 @@ module Culqi
 
     request = ''
     if type.upcase == 'POST'
-      puts api_key
+
       url = url.to_s
       auth_header = "Authorization: Bearer #{api_key}"
       content_type_header = "Content-Type: application/json"
@@ -42,11 +42,6 @@ module Culqi
         "-d", data
       )
 
-      if status.success?
-        puts stdout
-      else
-        puts "Error: #{stderr}"
-      end
     end
 
     if type.upcase == 'GET'
