@@ -9,8 +9,6 @@ module Culqi::ConfirmType
   def confirm(params={}, rsa_key='', rsa_id='')
     key = ''
     if(rsa_key != '')
-      rsa_key = rsa_key
-      rsa_id = rsa_id
       params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
     end
     key = Culqi.public_key
