@@ -1,3 +1,6 @@
+### 0.1.1 12-05-2023
+* Adding RSA/AES encrypt for payload 
+
 ### 0.1.0 30-04-2019
 * Adding new URL base secure for Tokens. 
 
