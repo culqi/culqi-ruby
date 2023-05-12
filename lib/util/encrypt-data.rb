@@ -1,19 +1,16 @@
 require 'openssl'
-require 'chilkat'
 require 'base64'
 require 'json'
-
-
+require 'openssl/oaep'
 
 module Encrypt
   def self.generate_random_bytes(length)
-    prng = Chilkat::CkPrng.new()
-    return prng.genRandom(length, "base64")
+    OpenSSL::Random.random_bytes(length)
   end
 
   def self.encrypt_with_aes_rsa(data, public_key, is_json)
-    key = generate_random_bytes(24) # Generate a 256-bit random key for AES encryption
-    iv = generate_random_bytes(12) # Generate a 128-bit random initialization vector for AES encryption
+    key = generate_random_bytes(32) # Generate a 256-bit random key for AES encryption
+    iv = generate_random_bytes(16) # Generate a 128-bit random initialization vector for AES encryption
 
     cipher = OpenSSL::Cipher.new('AES-256-CBC')
     cipher.encrypt
@@ -29,29 +26,21 @@ module Encrypt
     encrypted_data = Base64.strict_encode64(encrypted)
 
     ####
-    pubkey = Chilkat::CkPublicKey.new()
-    success = pubkey.LoadFromString(public_key)
-    if (success != true)
-      print pubkey.lastErrorText() + "\n";
-      exit
-    end
-
-    rsa = Chilkat::CkRsa.new()
-    rsa.put_OaepPadding(true)
-    rsa.put_OaepHash("sha256")
-    rsa.put_OaepMgfHash("sha256")
-    rsa.ImportPublicKeyObj(pubkey)
-    rsa.put_EncodingMode("base64")
-
-    bUsePrivateKey = false
-    encrypted_key = rsa.encryptStringENC(key, bUsePrivateKey)
-    encrypted_iv = rsa.encryptStringENC(iv, bUsePrivateKey)
-    if (rsa.get_LastMethodSuccess() != true)
-      print rsa.lastErrorText() + "\n";
-      exit
-    end
+    rsa_public_key = OpenSSL::PKey::RSA.new(public_key)
+    encrypted_key = rsa_encrypt(key, rsa_public_key)
+    encrypted_iv = rsa_encrypt(iv, rsa_public_key)
 
     { encrypted_data: encrypted_data, encrypted_key: encrypted_key, encrypted_iv: encrypted_iv }
+  end
+
+  def self.rsa_encrypt(data, public_key)
+    # Define the encryption parameters
+    label = ''
+
+    md = OpenSSL::Digest::SHA256
+    cipher_text = public_key.public_encrypt_oaep(data, label, md, md)
+
+    return Base64.strict_encode64(cipher_text)
   end
 
 end
