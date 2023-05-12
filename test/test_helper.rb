@@ -1,12 +1,12 @@
 require 'minitest/autorun'
 require 'culqi-ruby'
 
-Culqi.public_key = 'pk_live_da33560a681ff246'
+Culqi.public_key = 'pk_live_889113cd74ecfc55'
 Culqi.secret_key = 'sk_live_34a07dcb6d4c7e39'
-Culqi.rsa_id = '47976a3a-5c41-4a7d-81fe-b78bcadcafa4'
-Culqi.rsa_key = "-----BEGIN RSA PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDH8A7441I364u23DBADIrJMDbd
-vYWcmqfFCB9en4cJudPlr2p2txSW1VoN5tVcCStWiXrDqomuEj2mqruH5Lxuv1Ij
-d5RauS+Ja/i9HGy8UQ5bqWvbaLjcTLAE3uPKFcR1H84Kvp26kjO1KSpSFJdEyeCW
-ehtIk4gSvaPquEYp7QIDAQAB
------END RSA PUBLIC KEY-----"
+Culqi.rsa_id = '508fc232-0a9d-4fc0-a192-364a0b782b89'
+Culqi.rsa_key = "-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDYp0451xITpczkBrl5Goxkh7m1
+oynj8eDHypIn7HmbyoNJd8cS4OsT850hIDBwYmFuwmxF1YAJS8Cd2nes7fjCHh+7
+oNqgNKxM2P2NLaeo4Uz6n9Lu4KKSxTiIT7BHiSryC0+Dic91XLH7ZTzrfryxigsc
++ZNndv0fQLOW2i6OhwIDAQAB
+-----END PUBLIC KEY-----"
