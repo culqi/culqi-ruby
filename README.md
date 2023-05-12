@@ -6,7 +6,7 @@ Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consum
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.1.0](https://rubygems.org/gems/culqi-ruby) (2019-04-30) |[v2](https://culqi.com/api)|
+| [0.1.1](https://rubygems.org/gems/culqi-ruby) (2023-05-12) |[v2](https://culqi.com/api)|
 
 ## Requisitos
 
@@ -164,6 +164,12 @@ jsonRefund = JSON.parse(refund)
 
 ## Documentación
 ¿Necesitas más información para integrar `culqi-ruby`? La documentación completa se encuentra en [https://culqi.com/docs/](https://culqi.com/docs/)
+
+## Dependecies
+
+```bash
+gem install openssl-oaep
+```
 
 ## Build
 
