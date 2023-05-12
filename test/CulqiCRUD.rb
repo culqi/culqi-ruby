@@ -90,17 +90,18 @@ class CulqiCRUD
 
   def self.createOrder
     params = {
-      :amount => 1000,
+      :amount => 10000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :order_number => 'pedido-'+SecureRandom.random_number(50).to_s,
+      :order_number => 'pedido-ruby-'+SecureRandom.random_number(50).to_s,
       :client_details => ({
         :first_name => 'Richard',
         :last_name => 'Hendricks',
         :email => 'richar3d@piedpiper.com',
         :phone_number => '+51945145280'
       }),
-      :expiration_date => (Time.now + (2*7*24*60*60)).to_i
+      :expiration_date => (Time.now + (2*7*24*60*60)).to_i,
+      :confirm => false
     }
     order = Culqi::Order.create(params)
     puts order
