@@ -10,8 +10,8 @@ module Culqi::Update
     if(rsa_key != '')
       params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
     end
-    response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, rsa_id)
-    return response
+    response, statusCode = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, rsa_id)
+    return response, statusCode
   end
 
 end

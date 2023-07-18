@@ -1,72 +1,41 @@
-require 'uri'
 require 'net/http'
-require 'openssl'
 require 'json'
 require 'culqi-ruby'
-require 'open3'
-
 
 module Culqi
-
   def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id='')
+    base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
+    full_url = "#{base_url}#{url}"
+    uri = URI(full_url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme == 'https'
 
-    if secure_url == true 
-      url = URI("#{Culqi::API_BASE_SECURE}#{url}")
-    else 
-      url = URI("#{Culqi::API_BASE}#{url}")  
-    end      
+    headers = {
+      "Authorization" => "Bearer #{api_key}",
+      "Content-Type" => "application/json",
+      "cache-control" => "no-cache"
+    }
+    headers["x-culqi-rsa-id"] = rsa_id if rsa_id && !rsa_id.empty?
 
-    http = Net::HTTP.new(url.host, url.port)
+    case type.upcase
+    when 'GET'
+      request = Net::HTTP::Get.new(uri.request_uri, headers)
+    when 'POST'
+      request = Net::HTTP::Post.new(uri.request_uri, headers)
+      request.body = data.to_json if data
+    when 'DELETE'
+      request = Net::HTTP::Delete.new(uri.request_uri, headers)
+    when 'PATCH'
+      request = Net::HTTP::Patch.new(uri.request_uri, headers)
+      request.body = data.to_json if data
+    else
+      raise ArgumentError, "Unsupported request type: #{type}"
+    end
+
     http.read_timeout = time_out
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    response = http.request(request)
+    puts response.body
 
-    request = ''
-    if type.upcase == 'POST'
-
-      url = url.to_s
-      auth_header = "Authorization: Bearer #{api_key}"
-      content_type_header = "Content-Type: application/json"
-      rsa_id_header = "x-culqi-rsa-id: #{rsa_id}"
-      cache_control_header = "cache-control: no-cache"
-      data = data.to_json
-
-      stdout, stderr, status = Open3.capture3(
-        "curl",
-        "-X", "POST",
-        url,
-        "-H", auth_header,
-        "-H", content_type_header,
-        "-H", rsa_id_header,
-        "-H", cache_control_header,
-        "-d", data
-      )
-
-    end
-
-    if type.upcase == 'GET'
-      if !data.nil?
-        url.query = URI.encode_www_form(data)
-        command = "curl '#{url}' -G -d '#{URI.encode_www_form(data)}'"
-      else
-        command = "curl '#{url}'"
-      end
-
-      stdout, stderr, status = Open3.capture3("#{command} -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'cache-control: no-cache'")
-
-    end
-
-    if type.upcase == 'DELETE'
-      command = "curl -X DELETE '#{url}' -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'cache-control: no-cache'"
-      stdout, stderr, status = Open3.capture3(command)
-    end
-
-    if type.upcase == 'PATCH'
-      command = "curl -X PATCH '#{url}' -H 'Authorization: Bearer #{api_key}' -H 'Content-Type: application/json' -H 'x-culqi-rsa-id: #{rsa_id}' -H 'cache-control: no-cache' -d '#{data.to_json}'"
-      stdout, stderr, status = Open3.capture3(command)
-    end
-
-    return stdout
-
+    return response.body, response.code.to_i
   end
 end
