@@ -6,7 +6,7 @@ require 'CulqiCRUD'
 class CulqiTestCre < Minitest::Test
 
   def test_create_token_encrypt
-    token_string =  CulqiCRUD.createToken
+    token_string =  CulqiCRUD.createTokenEncrypt
     token_json = JSON.parse(JSON.generate(token_string[0]))
     id_value = token_json['object']
     assert_equal 'token', id_value
