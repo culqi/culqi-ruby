@@ -1,0 +1,41 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
+    ffi (1.15.5)
+    http-accept (1.7.0)
+    http-cookie (1.0.5)
+      domain_name (~> 0.5)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2023.0218.1)
+    mini_mime (1.1.2)
+    minitest (5.19.0)
+    multi_xml (0.6.0)
+    netrc (0.11.0)
+    openssl-oaep (0.1.0)
+    rbnacl (7.1.1)
+      ffi
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
+
+PLATFORMS
+  x86_64-darwin-22
+
+DEPENDENCIES
+  mini_mime (= 1.1.2)
+  minitest
+  multi_xml
+  openssl-oaep (= 0.1.0)
+  rbnacl
+  rest-client
+
+BUNDLED WITH
+   2.4.17

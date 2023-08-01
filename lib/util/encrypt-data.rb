@@ -10,13 +10,14 @@ module Encrypt
 
   def self.encrypt_with_aes_rsa(data, public_key, is_json)
     key = generate_random_bytes(32) # Generate a 256-bit random key for AES encryption
-    iv = generate_random_bytes(16) # Generate a 128-bit random initialization vector for AES encryption
+    iv = generate_random_bytes(12)  # GCM mode requires a 96-bit (12 bytes) random initialization vector
 
-    cipher = OpenSSL::Cipher.new('AES-256-CBC')
+    cipher = OpenSSL::Cipher.new('AES-256-GCM')
     cipher.encrypt
     cipher.key = key
     cipher.iv = iv
 
+    # Since GCM does not require padding, we can directly pass the data to be encrypted
     encrypted = if is_json
                   cipher.update(data.to_json) + cipher.final
                 else
@@ -40,7 +41,6 @@ module Encrypt
     md = OpenSSL::Digest::SHA256
     cipher_text = public_key.public_encrypt_oaep(data, label, md, md)
 
-    return Base64.strict_encode64(cipher_text)
+    Base64.strict_encode64(cipher_text)
   end
-
 end
