@@ -1,4 +1,4 @@
-require 'net/http'
+require 'excon'
 require 'json'
 require 'culqi-ruby'
 
@@ -6,36 +6,37 @@ module Culqi
   def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id='')
     base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
     full_url = "#{base_url}#{url}"
-    uri = URI(full_url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
 
     headers = {
       "Authorization" => "Bearer #{api_key}",
       "Content-Type" => "application/json",
-      "cache-control" => "no-cache"
+      "x-culqi-rsa-id" => rsa_id
     }
-    headers["x-culqi-rsa-id"] = rsa_id if rsa_id && !rsa_id.empty?
+
+    puts "Body"
+    puts data.to_json
+
+    response = Excon.new(full_url,
+                         headers: headers,
+                         read_timeout: time_out,
+                         idempotent: true,
+                         retry_limit: 6)
 
     case type.upcase
     when 'GET'
-      request = Net::HTTP::Get.new(uri.request_uri, headers)
+      result = response.request(method: :get, query: data)
     when 'POST'
-      request = Net::HTTP::Post.new(uri.request_uri, headers)
-      request.body = data.to_json if data
+      result = response.request(method: :post, body: data.to_json)
     when 'DELETE'
-      request = Net::HTTP::Delete.new(uri.request_uri, headers)
+      result = response.request(method: :delete)
     when 'PATCH'
-      request = Net::HTTP::Patch.new(uri.request_uri, headers)
-      request.body = data.to_json if data
+      result = response.request(method: :patch, body: data.to_json)
     else
       raise ArgumentError, "Unsupported request type: #{type}"
     end
 
-    http.read_timeout = time_out
-    response = http.request(request)
-    puts response.body
+    puts result.body
 
-    return response.body, response.code.to_i
+    return result.body, result.status
   end
 end
