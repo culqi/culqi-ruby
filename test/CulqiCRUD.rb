@@ -8,15 +8,15 @@ class CulqiCRUD
     rsa_key = Culqi.rsa_key
     rsa_id = Culqi.rsa_id
     params ={
-      :card_number => '4557880621568322',
+      :card_number => '4111111111111111',
       :cvv => '111',
       :currency_code => 'PEN',
       :email => 'test1231@culqi.com',
-      :expiration_month => 11,
-      :expiration_year => 2026
+      :expiration_month => 9,
+      :expiration_year => 2025
     }
     token, statusCode = Culqi::Token.create(params,  rsa_key, rsa_id)
-    puts token
+    #puts token
     return JSON.parse(token), statusCode
   end
 
