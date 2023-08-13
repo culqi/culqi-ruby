@@ -26,7 +26,7 @@ module Culqi
   LIST_TIMEOUT = 360
 
   class << self
-      attr_accessor :public_key, :secret_key
+      attr_accessor :public_key, :secret_key, :rsa_id, :rsa_key
   end
 
 end

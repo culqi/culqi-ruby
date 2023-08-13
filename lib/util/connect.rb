@@ -1,57 +1,42 @@
-require 'uri'
-require 'net/http'
-require 'openssl'
+require 'excon'
 require 'json'
 require 'culqi-ruby'
 
 module Culqi
+  def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id='')
+    base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
+    full_url = "#{base_url}#{url}"
 
-  def self.connect(url, api_key, data, type, time_out, secure_url = false)    
+    headers = {
+      "Authorization" => "Bearer #{api_key}",
+      "Content-Type" => "application/json",
+      "x-culqi-rsa-id" => rsa_id
+    }
 
-    if secure_url == true 
-      url = URI("#{Culqi::API_BASE_SECURE}#{url}")
-    else 
-      url = URI("#{Culqi::API_BASE}#{url}")  
-    end      
+    puts "Body"
+    puts data.to_json
 
-    http = Net::HTTP.new(url.host, url.port)
-    http.read_timeout = time_out
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    response = Excon.new(full_url,
+                         headers: headers,
+                         read_timeout: time_out,
+                         idempotent: true,
+                         retry_limit: 6)
 
-    request = ''
-    if type.upcase == 'POST'
-      request = Net::HTTP::Post.new(url)
-      if !data.nil?
-        request.body = data.to_json
-      end
+    case type.upcase
+    when 'GET'
+      result = response.request(method: :get, query: data)
+    when 'POST'
+      result = response.request(method: :post, body: data.to_json)
+    when 'DELETE'
+      result = response.request(method: :delete)
+    when 'PATCH'
+      result = response.request(method: :patch, body: data.to_json)
+    else
+      raise ArgumentError, "Unsupported request type: #{type}"
     end
 
-    if type.upcase == 'GET'
-      if !data.nil?
-        url.query = URI.encode_www_form(data)
-        request = Net::HTTP::Get.new(url)
-      else
-        request = Net::HTTP::Get.new(url)
-      end
-    end
+    puts result.body
 
-    if type.upcase == 'DELETE'
-      request = Net::HTTP::Delete.new(url)
-    end
-
-    if type.upcase == 'PATCH'
-      request = Net::HTTP::Patch.new(url)
-      request.body = data.to_json
-    end
-
-
-    request["Authorization"] = "Bearer #{api_key}"
-    request["Content-Type"] = 'application/json'
-    request["cache-control"] = 'no-cache'
-
-    return http.request(request)
-
+    return result.body, result.status
   end
-
 end
