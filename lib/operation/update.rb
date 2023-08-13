@@ -6,9 +6,12 @@ module Culqi::Update
     @url = ''
   end
 
-  def update(id, params={})
-    response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT)
-    return response.read_body
+  def update(id, params={}, rsa_key='', rsa_id='')
+    if(rsa_key != '')
+      params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
+    end
+    response, statusCode = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, rsa_id)
+    return response, statusCode
   end
 
 end

@@ -6,11 +6,14 @@ module Culqi::ConfirmType
     @url = ''
   end
 
-  def confirm(params={})
+  def confirm(params={}, rsa_key='', rsa_id='')
     key = ''
-    key = Culqi.secret_key
-    response = Culqi.connect(@url+'confirm', key, params, 'post', Culqi::READ_TIMEOUT)
-    return response.read_body
+    if(rsa_key != '')
+      params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
+    end
+    key = Culqi.public_key
+    response = Culqi.connect(@url+'confirm', key, params, 'post', Culqi::READ_TIMEOUT, false, rsa_id)
+    return response
   end
 
 end

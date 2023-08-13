@@ -1,24 +1,55 @@
-# culqi-ruby
+# Culqi-Ruby
 
 [![Gem Version](https://badge.fury.io/rb/culqi-ruby.svg)](https://badge.fury.io/rb/culqi-ruby)
 
-Biblioteca de CULQI para el lenguaje Ruby, pagos simples en tu sitio web. Consume el Culqi API.
+Nuestra Biblioteca Culqi-Ruby oficial, es compatible con la v2.0 del Culqi API, con el cual tendrás la posibilidad de realizar cobros con tarjetas de débito y crédito, Yape, PagoEfectivo, billeteras móviles y Cuotéalo con solo unos simples pasos de configuración.
+
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.1.0](https://rubygems.org/gems/culqi-ruby) (2023-04-05) |[v2](https://culqi.com/api)|
+| [0.2.0](https://rubygems.org/gems/culqi-ruby) (2023-08-11) |[v2](https://culqi.com/api)|
 
 ## Requirimientos
 
-- Ruby >= 2.0.0
+- Ruby >= 3.0.0
 - Afiliate [aquí](https://afiliate.culqi.com/).
-- Si vas a realizar pruebas obtén tus llaves desde [aquí](https://integ-panel.culqi.com/#/registro), si vas a realizar transacciones reales obtén tus llaves desde [aquí](https://panel.culqi.com/#/registro).
+- Si vas a realizar pruebas obtén tus llaves desde [aquí](https://integ-panel.culqi.com/#/registro), si vas a realizar transacciones reales obtén tus llaves desde [aquí](https://mipanel.culqi.com/#/registro).
 
 > Recuerda que para obtener tus llaves debes ingresar a tu CulqiPanel > Desarrollo > ***API Keys***.
 
 ![alt tag](http://i.imgur.com/NhE6mS9.png)
 
 > Recuerda que las credenciales son enviadas al correo que registraste en el proceso de afiliación.
+
+## Instalar Dependecies
+
+```bash
+gem install bundler
+bundle install
+```
+
+## Build
+
+```bash
+gem build culqi-ruby.gemspec
+gem install ./culqi-ruby-{VERSION}.gem
+gem push culqi-ruby-{VERSION}.gem
+```
+
+## Testing
+
+Solo debe ejecutar el siguiente comando
+
+```ruby
+rake test test_culqi-create.rb
+```
+
+Si queremos ejecutar un especifico test método
+
+```ruby
+rake test TEST=test/test_culqi-create.rb
+rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
+```
 
 ## Ejemplos
 
@@ -171,29 +202,14 @@ jsonRefund = JSON.parse(refund)
 ## Documentación
 ¿Necesitas más información para integrar `culqi-ruby`? La documentación completa se encuentra en [https://culqi.com/docs/](https://culqi.com/docs/)
 
-## Build
-
-```bash
-gem build culqi-ruby.gemspec
-gem install ./culqi-ruby-{VERSION}.gem
-gem push culqi-ruby-{VERSION}.gem
-```
-
 ## Changelog
 
 Todos los cambios en las versiones de esta biblioteca están listados en [CHANGELOG](CHANGELOG).
 
-## Testing
-
-Solo debe ejecutar el siguiente comando
-
-```ruby
-rake test
-```
 
 ## Autor
 
-Willy Aguirre ([@marti1125](https://github.com/marti1125) - Team Culqi)
+Team Culqi
 
 ## Licencia
 
