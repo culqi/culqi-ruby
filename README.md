@@ -9,6 +9,9 @@ Nuestra Biblioteca Culqi-Ruby oficial, es compatible con la v2.0 del Culqi API, 
 |----|----|
 | [0.2.0](https://rubygems.org/gems/culqi-ruby) (2023-08-11) |[v2](https://culqi.com/api)|
 
+Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solicitud HTTP que se realiza al API de Culqi, asi como el `response` que contiene el cuerpo de la respuesta obtenida.
+
+
 ## Requisitos
 
 - Ruby >= 3.0.0
@@ -20,6 +23,8 @@ Nuestra Biblioteca Culqi-Ruby oficial, es compatible con la v2.0 del Culqi API, 
 ![alt tag](http://i.imgur.com/NhE6mS9.png)
 
 > Recuerda que las credenciales son enviadas al correo que registraste en el proceso de afiliación.
+
+* Para encriptar el payload debes generar un id y llave RSA  ingresando a CulqiPanel > Desarrollo  > RSA Keys
 
 ## Instalar Dependecies
 
