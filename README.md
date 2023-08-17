@@ -51,19 +51,44 @@ rake test TEST=test/test_culqi-create.rb
 rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
 ```
 
-## Ejemplos
 
-### Inicialización
+
+## Configuracion
+
+Para empezar a enviar peticiones al API de Culqi debes configurar tu llave pública (pk), llave privada (sk).
+Para habilitar encriptación de payload debes configurar tu rsa_id y rsa_public_key.
 
 ```ruby
 
-require 'securerandom'
+require 'minitest/autorun'
 require 'culqi-ruby'
 
-Culqi.public_key = '{LLAVE_PUBLICA}'
-Culqi.secret_key = '{LLAVE_SECRETA}'
+Culqi.public_key = 'pk_test_e94078b9b248675d'
+Culqi.secret_key = 'sk_test_c2267b5b262745f0'
+Culqi.rsa_id = 'de35e120-e297-4b96-97ef-10a43423ddec'
+Culqi.rsa_key = "-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDswQycch0x/7GZ0oFojkWCYv+g
+r5CyfBKXc3Izq+btIEMCrkDrIsz4Lnl5E3FSD7/htFn1oE84SaDKl5DgbNoev3pM
+C7MDDgdCFrHODOp7aXwjG8NaiCbiymyBglXyEN28hLvgHpvZmAn6KFo0lMGuKnz8
+HiuTfpBl6HpD6+02SQIDAQAB
+-----END PUBLIC KEY-----"
 
 ```
+
+### Encriptar payload
+
+Para encriptar el payload necesitas agregar el siguiente codigo en caso de token.
+
+Ejemplo
+
+```ruby
+    token_string =  CulqiCRUD.createTokenEncrypt
+    token_json = JSON.parse(JSON.generate(token_string[0]))
+    id_value = token_json['object']
+    assert_equal 'token', id_value
+```
+
+## Ejemplos
 
 ### Crear Token
 
@@ -197,6 +222,30 @@ refund = Culqi::Refund.create(
 
 jsonRefund = JSON.parse(refund)
 
+```
+
+## Pruebas
+
+En la caperta **/test** econtraras ejemplo para crear un token, charge,plan, órdenes, card, suscupciones, etc.
+
+> Recuerda que si quieres probar tu integración, puedes utilizar nuestras [tarjetas de prueba.](https://docs.culqi.com/es/documentacion/pagos-online/tarjetas-de-prueba/)
+
+### Ejemplo Prueba Token
+
+```ruby
+    token_string =  CulqiCRUD.createToken
+    token_json = JSON.parse(JSON.generate(token_string[0]))
+    id_value = token_json['object']
+    assert_equal 'token', id_value
+```
+
+### Ejemplo Prueba Cargo
+
+```ruby
+    charge_string =  CulqiCRUD.createCharge
+    charge_json = JSON.parse(JSON.generate(charge_string[0]))
+    id_value = charge_json['object']
+    assert_equal 'charge',id_value
 ```
 
 ## Documentación
