@@ -51,19 +51,39 @@ rake test TEST=test/test_culqi-create.rb
 rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
 ```
 
-## Ejemplos
 
-### Inicialización
+
+## Configuracion
+
+Para empezar a enviar peticiones al API de Culqi debes configurar tu llave pública (pk), llave privada (sk).
+Para habilitar encriptación de payload debes configurar tu rsa_id y rsa_public_key.
 
 ```ruby
 
-require 'securerandom'
+require 'minitest/autorun'
 require 'culqi-ruby'
 
-Culqi.public_key = '{LLAVE_PUBLICA}'
-Culqi.secret_key = '{LLAVE_SECRETA}'
+Culqi.public_key = 'INSERTE_SU_LLAVE_PUBLICA'
+Culqi.secret_key = 'INSERTE_SU_LLAVE_PRIVADA'
+Culqi.rsa_id = 'INSERTE_SU_RSA_ID'
+Culqi.rsa_key = "INSERTE_SU_LLAVE_RSA"
 
 ```
+
+### Encriptar payload
+
+Para encriptar el payload necesitas agregar el siguiente codigo en caso de token.
+
+Ejemplo
+
+```ruby
+    token_string =  CulqiCRUD.createTokenEncrypt
+    token_json = JSON.parse(JSON.generate(token_string[0]))
+    id_value = token_json['object']
+    assert_equal 'token', id_value
+```
+
+## Ejemplos
 
 ### Crear Token
 
@@ -197,6 +217,30 @@ refund = Culqi::Refund.create(
 
 jsonRefund = JSON.parse(refund)
 
+```
+
+## Pruebas
+
+En la caperta **/test** econtraras ejemplo para crear un token, charge,plan, órdenes, card, suscupciones, etc.
+
+> Recuerda que si quieres probar tu integración, puedes utilizar nuestras [tarjetas de prueba.](https://docs.culqi.com/es/documentacion/pagos-online/tarjetas-de-prueba/)
+
+### Ejemplo Prueba Token
+
+```ruby
+    token_string =  CulqiCRUD.createToken
+    token_json = JSON.parse(JSON.generate(token_string[0]))
+    id_value = token_json['object']
+    assert_equal 'token', id_value
+```
+
+### Ejemplo Prueba Cargo
+
+```ruby
+    charge_string =  CulqiCRUD.createCharge
+    charge_json = JSON.parse(JSON.generate(charge_string[0]))
+    id_value = charge_json['object']
+    assert_equal 'charge',id_value
 ```
 
 ## Documentación
