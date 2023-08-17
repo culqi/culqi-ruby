@@ -41,23 +41,6 @@ gem install ./culqi-ruby-{VERSION}.gem
 gem push culqi-ruby-{VERSION}.gem
 ```
 
-## Testing
-
-Solo debe ejecutar el siguiente comando
-
-```ruby
-rake test test_culqi-create.rb
-```
-
-Si queremos ejecutar un especifico test método
-
-```ruby
-rake test TEST=test/test_culqi-create.rb
-rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
-```
-
-
-
 ## Configuracion
 
 Para empezar a enviar peticiones al API de Culqi debes configurar tu llave pública (pk), llave privada (sk).
@@ -234,6 +217,20 @@ jsonRefund = JSON.parse(refund)
 En la caperta **/test** econtraras ejemplo para crear un token, charge,plan, órdenes, card, suscupciones, etc.
 
 > Recuerda que si quieres probar tu integración, puedes utilizar nuestras [tarjetas de prueba.](https://docs.culqi.com/es/documentacion/pagos-online/tarjetas-de-prueba/)
+
+Solo debe ejecutar el siguiente comando
+
+```ruby
+rake test test_culqi-create.rb
+```
+
+Si queremos ejecutar un especifico test método
+
+```ruby
+rake test TEST=test/test_culqi-create.rb
+rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
+```
+
 
 ### Ejemplo Prueba Token
 
