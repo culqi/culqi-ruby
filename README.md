@@ -68,10 +68,10 @@ Para encriptar el payload necesitas agregar el siguiente codigo en caso de token
 Ejemplo
 
 ```ruby
-    token_string =  CulqiCRUD.createTokenEncrypt
-    token_json = JSON.parse(JSON.generate(token_string[0]))
-    id_value = token_json['object']
-    assert_equal 'token', id_value
+token_string =  CulqiCRUD.createTokenEncrypt
+token_json = JSON.parse(JSON.generate(token_string[0]))
+id_value = token_json['object']
+assert_equal 'token', id_value
 ```
 
 ## Ejemplos
@@ -194,7 +194,6 @@ jsonSubscription = JSON.parse(subscription)
 ### Crear Reembolso
 
 ```ruby
-
 refund = Culqi::Refund.create(
   :amount => 500,
   :charge_id => jsonCharge['id'],
@@ -227,19 +226,19 @@ rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
 ### Ejemplo Prueba Token
 
 ```ruby
-    token_string =  CulqiCRUD.createToken
-    token_json = JSON.parse(JSON.generate(token_string[0]))
-    id_value = token_json['object']
-    assert_equal 'token', id_value
+token_string =  CulqiCRUD.createToken
+token_json = JSON.parse(JSON.generate(token_string[0]))
+id_value = token_json['object']
+assert_equal 'token', id_value
 ```
 
 ### Ejemplo Prueba Cargo
 
 ```ruby
-    charge_string =  CulqiCRUD.createCharge
-    charge_json = JSON.parse(JSON.generate(charge_string[0]))
-    id_value = charge_json['object']
-    assert_equal 'charge',id_value
+charge_string =  CulqiCRUD.createCharge
+charge_json = JSON.parse(JSON.generate(charge_string[0]))
+id_value = charge_json['object']
+assert_equal 'charge',id_value
 ```
 
 ## Documentación
