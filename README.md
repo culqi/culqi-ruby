@@ -4,6 +4,7 @@
 
 Nuestra Biblioteca Culqi-Ruby oficial, es compatible con la v2.0 del Culqi API, con el cual tendrás la posibilidad de realizar cobros con tarjetas de débito y crédito, Yape, PagoEfectivo, billeteras móviles y Cuotéalo con solo unos simples pasos de configuración.
 
+Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solicitud HTTP que se realiza al API de Culqi, así como el `response` que contiene el cuerpo de la respuesta obtenida.
 
 | Versión actual|Culqi API|
 |----|----|
@@ -14,7 +15,7 @@ Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solic
 
 ## Requisitos
 
-- Ruby >= 3.0.0
+- Ruby 3.0.0+
 - Afiliate [aquí](https://afiliate.culqi.com/).
 - Si vas a realizar pruebas obtén tus llaves desde [aquí](https://integ-panel.culqi.com/#/registro), si vas a realizar transacciones reales obtén tus llaves desde [aquí](https://mipanel.culqi.com/#/registro).
 
@@ -24,9 +25,9 @@ Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solic
 
 > Recuerda que las credenciales son enviadas al correo que registraste en el proceso de afiliación.
 
-* Para encriptar el payload debes generar un id y llave RSA  ingresando a CulqiPanel > Desarrollo  > RSA Keys
+* Para encriptar el payload debes generar un id y llave RSA  ingresando a CulqiPanel > Desarrollo  > RSA Keys.
 
-## Instalar Dependecies
+## Instalar Dependencias
 
 ```bash
 gem install bundler
@@ -60,7 +61,6 @@ r5CyfBKXc3Izq+btIEMCrkDrIsz4Lnl5E3FSD7/htFn1oE84SaDKl5DgbNoev3pM
 C7MDDgdCFrHODOp7aXwjG8NaiCbiymyBglXyEN28hLvgHpvZmAn6KFo0lMGuKnz8
 HiuTfpBl6HpD6+02SQIDAQAB
 -----END PUBLIC KEY-----"
-
 ```
 
 ### Encriptar payload
@@ -81,82 +81,80 @@ Ejemplo
 ### Crear Token
 
 ```ruby
-
-token = Culqi::Token.create(
-    :card_number => '4111111111111111',
-    :cvv => '123',
-    :currency_code => 'PEN',
-    :email => 'test@culqi.com',
-    :expiration_month => 9,
-    :expiration_year => 2020
-)
+params ={
+      :card_number => '4111111111111111',
+      :cvv => '111',
+      :currency_code => 'PEN',
+      :email => 'test1231@culqi.com',
+      :expiration_month => 9,
+      :expiration_year => 2025
+    }
+token, statusCode = Culqi::Token.create(params,  rsa_key, rsa_id)
 
 jsonToken = JSON.parse(token)
 
 puts jsonToken['id']
-
 ```
 
 ### Crear Cargo
 
 ```ruby
-
-charge = Culqi::Charge.create(
-    :amount => 1000,
-    :capture => true,
-    :currency_code => 'PEN',
-    :description => 'Venta de prueba',
-    :email => 'wmuro@me.com',
-    :installments => 0,
-    :metadata => ({
+params = {
+      :amount => 1000,
+      :capture => false,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :installments => 0,
+      :metadata => ({
         :test => 'test123'
-    }),
-    :source_id => jsonToken['id']
-)
+      }),
+      :source_id => token_json['id']
+    }
+charge, statusCode = Culqi::Charge.create(params)
 
 jsonCharge = JSON.parse(charge)
-
 ```
 
 ### Crear Plan
 
 ```ruby
+params = {
+      :amount => 1000,
+      :currency_code => 'PEN',
+      :interval => 'dias',
+      :interval_count => 2,
+      :limit => 10,
+      :metadata => ({
+        :alias => 'plan_test'
+      }),
+      :name => 'plan-test-'+SecureRandom.uuid,
+      :trial_days => 50
+    }
 
-plan = Culqi::Plan.create(
-    :amount => 1000,
-    :currency_code => 'PEN',
-    :interval => 'dias',
-    :interval_count => 2,
-    :limit => 10,
-    :metadata => ({
-    :alias => 'plan_test'
-    }),
-    :name => 'plan-test-'+SecureRandom.uuid,
-    :trial_days => 50
-)
+plan, statusCode = Culqi::Plan.create(params)
 
 jsonPlan = JSON.parse(plan)
-
 ```
 
 ### Crear Costumer
 
 ```ruby
-customer = Culqi::Customer.create(
-    :address => 'Avenida Lima 123213',
-    :address_city => 'LIMA',
-    :country_code => 'PE',
-    :email => 'test'+SecureRandom.uuid+'@culqi.com',
-    :first_name => 'William',
-    :last_name => 'Muro',
-    :metadata => ({
-      :other_number => '789953655'
-    }),
-    :phone_number => 998989789
-)
+params = {
+      :address => 'Avenida Lima 123213',
+      :address_city => 'LIMA',
+      :country_code => 'PE',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :first_name => 'William',
+      :last_name => 'Muro',
+      :metadata => ({
+        :other_number => '789953655'
+      }),
+      :phone_number => 998989789
+    }
+customer, statusCode = Culqi::Customer.create(params)
 
 jsonCustomer = JSON.parse(customer)
-
 ```
 
 ### Actualizar Costumer
@@ -182,20 +180,17 @@ card = Culqi::Card.create(
 )
 
 jsonCard = JSON.parse(card)
-
 ```
 
 ### Crear Suscripción
 
 ```ruby
-
 subscription = Culqi::Subscription.create(
   :card_id => jsonCard['id'],
   :plan_id => jsonPlan['id']
 )
 
 jsonSubscription = JSON.parse(subscription)
-
 ```
 
 ### Crear Reembolso
@@ -209,12 +204,11 @@ refund = Culqi::Refund.create(
 )
 
 jsonRefund = JSON.parse(refund)
-
 ```
 
 ## Pruebas
 
-En la caperta **/test** econtraras ejemplo para crear un token, charge,plan, órdenes, card, suscupciones, etc.
+En la carpeta **/test** encontraras ejemplos para crear un token, charge, plan, órdenes, card, suscripciones, etc.
 
 > Recuerda que si quieres probar tu integración, puedes utilizar nuestras [tarjetas de prueba.](https://docs.culqi.com/es/documentacion/pagos-online/tarjetas-de-prueba/)
 
@@ -251,17 +245,18 @@ rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_token -v"
 ```
 
 ## Documentación
-¿Necesitas más información para integrar `culqi-ruby`? La documentación completa se encuentra en [https://culqi.com/docs/](https://culqi.com/docs/)
+
+- [Referencia de API](https://apidocs.culqi.com/)
+- [Demo Checkout V4 + Culqi 3DS](https://github.com/culqi/culqi-ruby-demo-checkoutv4-culqi3ds)
+- [Wiki](https://github.com/culqi/culqi-python/wiki)
+
 
 ## Changelog
 
 Todos los cambios en las versiones de esta biblioteca están listados en [CHANGELOG](CHANGELOG).
 
-
 ## Autor
-
 Team Culqi
 
 ## Licencia
-
-El código fuente de culqi-ruby está distribuido bajo MIT License, revisar el archivo [LICENSE](https://github.com/culqi/culqi-ruby/blob/master/LICENSE).
+El código fuente de culqi-net está distribuido bajo MIT License, revisar el archivo LICENSE.
