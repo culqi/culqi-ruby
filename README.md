@@ -8,7 +8,7 @@ Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solic
 
 | Versión actual|Culqi API|
 |----|----|
-| [0.2.0](https://rubygems.org/gems/culqi-ruby) (2023-08-11) |[v2](https://culqi.com/api)|
+| [1.0.0](https://rubygems.org/gems/culqi-ruby) (2023-08-11) |[v2](https://culqi.com/api)|
 
 
 ## Requisitos
