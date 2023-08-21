@@ -69,7 +69,7 @@ id_value = token_json['object']
 assert_equal 'token', id_value
 ```
 
-## Ejemplos
+## Servicios
 
 ### Crear Token
 
