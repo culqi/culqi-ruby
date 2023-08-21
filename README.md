@@ -78,6 +78,11 @@ assert_equal 'token', id_value
 
 ### Crear Token
 
+Antes de crear un Cargo o Card es necesario crear un `token` de tarjeta. 
+Lo recomendable es generar los 'tokens' con [Culqi Checkout v4](https://docs.culqi.com/es/documentacion/checkout/v4/culqi-checkout/) o [Culqi JS v4](https://docs.culqi.com/es/documentacion/culqi-js/v4/culqi-js/) **debido a que es muy importante que los datos de tarjeta sean enviados desde el dispositivo de tus clientes directamente a los servidores de Culqi**, para no poner en riesgo los datos sensibles de la tarjeta de crédito/débito.
+
+> Recuerda que cuando interactúas directamente con el [API Token](https://apidocs.culqi.com/#tag/Tokens/operation/crear-token) necesitas cumplir la normativa de PCI DSS 3.2. Por ello, te pedimos que llenes el [formulario SAQ-D](https://listings.pcisecuritystandards.org/documents/SAQ_D_v3_Merchant.pdf) y lo envíes al buzón de riesgos Culqi.
+
 ```ruby
 params ={
       :card_number => '4111111111111111',
@@ -95,6 +100,10 @@ puts jsonToken['id']
 ```
 
 ### Crear Cargo
+
+Crear un cargo significa cobrar una venta a una tarjeta. Para esto previamente deberías generar el  `token` y enviarlo en parámetro **source_id**.
+
+Los cargos pueden ser creados vía [API de devolución](https://apidocs.culqi.com/#tag/Cargos/operation/crear-cargo).
 
 ```ruby
 params = {
@@ -114,7 +123,27 @@ charge, statusCode = Culqi::Charge.create(params)
 jsonCharge = JSON.parse(charge)
 ```
 
+### Crear Devolución
+
+Solicita la devolución de las compras de tus clientes (parcial o total) de forma gratuita a través del API y CulqiPanel. 
+
+Las devoluciones pueden ser creados vía [API de devolución](https://apidocs.culqi.com/#tag/Devoluciones/operation/crear-devolucion).
+
+```ruby
+refund, statusCode = Culqi::Refund.create(
+  :amount => 500,
+  :charge_id => jsonCharge['id'],
+  :reason => 'solicitud_comprador'
+)
+
+jsonRefund = JSON.parse(refund)
+```
+
 ### Crear Plan
+
+El plan es un servicio que te permite definir con qué frecuencia deseas realizar cobros a tus clientes.
+
+Un plan define el comportamiento de las suscripciones. Los planes pueden ser creados vía el [API de Plan](https://apidocs.culqi.com/#/planes#create) o desde el **CulqiPanel**.
 
 ```ruby
 params = {
@@ -135,7 +164,11 @@ plan, statusCode = Culqi::Plan.create(params)
 jsonPlan = JSON.parse(plan)
 ```
 
-### Crear Costumer
+### Crear Cliente
+
+El **cliente** es un servicio que te permite guardar la información de tus clientes. Es un paso necesario para generar una [tarjeta](/es/documentacion/pagos-online/recurrencia/one-click/tarjetas).
+
+Los clientes pueden ser creados vía [API de cliente](https://apidocs.culqi.com/#tag/Clientes/operation/crear-cliente).
 
 ```ruby
 params = {
@@ -155,15 +188,15 @@ customer, statusCode = Culqi::Customer.create(params)
 jsonCustomer = JSON.parse(customer)
 ```
 
-### Actualizar Costumer
+### Actualizar Cliente
 
 ```ruby
-updatecustomer = Culqi::Customer.update('cus_test_F5voBd1yHsCkjSwF',
+updatecustomer, statusCode = Culqi::Customer.update('cus_test_F5voBd1yHsCkjSwF',
       :address => 'Av. Lima 123',
       :first_name => 'Will')
 ```
 
-### Obtener Costumer
+### Obtener Cliente
 
 ```ruby
 getcustomer = Culqi::Customer.get('cus_test_F5voBd1yHsCkjSwF')
@@ -171,8 +204,12 @@ getcustomer = Culqi::Customer.get('cus_test_F5voBd1yHsCkjSwF')
 
 ### Crear Card
 
+La **tarjeta** es un servicio que te permite guardar la información de las tarjetas de crédito o débito de tus clientes para luego realizarles cargos one click o recurrentes (cargos posteriores sin que tus clientes vuelvan a ingresar los datos de su tarjeta).
+
+Las tarjetas pueden ser creadas vía [API de tarjeta](https://apidocs.culqi.com/#tag/Tarjetas/operation/crear-tarjeta).
+
 ```ruby
-card = Culqi::Card.create(
+card, statusCode = Culqi::Card.create(
   :customer_id => jsonCustomer['id'],
   :token_id => jsonToken['id']
 )
@@ -182,8 +219,12 @@ jsonCard = JSON.parse(card)
 
 ### Crear Suscripción
 
+La suscripción es un servicio que asocia la tarjeta de un cliente con un plan establecido por el comercio.
+
+Las suscripciones pueden ser creadas vía [API de suscripción](https://apidocs.culqi.com/#tag/Suscripciones/operation/crear-suscripcion).
+
 ```ruby
-subscription = Culqi::Subscription.create(
+subscription, statusCode = Culqi::Subscription.create(
   :card_id => jsonCard['id'],
   :plan_id => jsonPlan['id']
 )
@@ -191,17 +232,33 @@ subscription = Culqi::Subscription.create(
 jsonSubscription = JSON.parse(subscription)
 ```
 
-### Crear Reembolso
+### Crear Orden
+
+Es un servicio que te permite generar una orden de pago para una compra potencial.
+La orden contiene la información necesaria para la venta y es usado por el sistema de **PagoEfectivo** para realizar los pagos diferidos.
+
+Las órdenes pueden ser creadas vía [API de orden](https://apidocs.culqi.com/#tag/Ordenes/operation/crear-orden).
 
 ```ruby
-refund = Culqi::Refund.create(
-  :amount => 500,
-  :charge_id => jsonCharge['id'],
-  :reason => 'solicitud_comprador'
-)
+params = {
+  :amount => 10000,
+  :currency_code => 'PEN',
+  :description => 'Venta de prueba',
+  :order_number => 'pedido-ruby-'+SecureRandom.random_number(50).to_s,
+  :client_details => ({
+    :first_name => 'Richard',
+    :last_name => 'Hendricks',
+    :email => 'richar3d@piedpiper.com',
+    :phone_number => '+51945145280'
+  }),
+  :expiration_date => (Time.now + (2*7*24*60*60)).to_i,
+  :confirm => false
+}
+order, statusCode = Culqi::Orden.create(params)
 
-jsonRefund = JSON.parse(refund)
+jsonSubscription = JSON.parse(order)
 ```
+
 
 ## Pruebas
 
@@ -243,9 +300,10 @@ assert_equal 'charge',id_value
 
 ## Documentación
 
+- [Referencia de Documentación](https://docs.culqi.com/)
 - [Referencia de API](https://apidocs.culqi.com/)
 - [Demo Checkout V4 + Culqi 3DS](https://github.com/culqi/culqi-ruby-demo-checkoutv4-culqi3ds)
-- [Wiki](https://github.com/culqi/culqi-python/wiki)
+- [Wiki](https://github.com/culqi/culqi-ruby/wiki)
 
 
 ## Changelog
