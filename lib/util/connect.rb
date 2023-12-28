@@ -7,9 +7,15 @@ module Culqi
     base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
     full_url = "#{base_url}#{url}"
 
+    print full_url
+    
     headers = {
       "Authorization" => "Bearer #{api_key}",
       "Content-Type" => "application/json",
+      "x-culqi-env" => Culqi::X_CULQI_ENV,
+      "x-api-version" => Culqi::X_API_VERSION,
+      "x-culqi-client" => Culqi::X_CULQI_CLIENT,
+      "x-culqi-client-version" => Culqi::X_CULQI_CLIENT,
       "x-culqi-rsa-id" => rsa_id
     }
 

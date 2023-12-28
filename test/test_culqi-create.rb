@@ -12,7 +12,7 @@ class CulqiTestCre < Minitest::Test
     assert_equal 'token', id_value
   end
   def test_create_yape
-    token_string =  CulqiCRUD.createToken
+    token_string =  CulqiCRUD.createYape
     token_json = JSON.parse(JSON.generate(token_string[0]))
     id_value = token_json['object']
     assert_equal 'token', id_value
@@ -21,6 +21,7 @@ class CulqiTestCre < Minitest::Test
     token_string =  CulqiCRUD.createToken
     token_json = JSON.parse(JSON.generate(token_string[0]))
     id_value = token_json['object']
+    print id_value
     assert_equal 'token', id_value
   end
 

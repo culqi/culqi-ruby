@@ -31,9 +31,9 @@ class CulqiCRUD
     }
     token, statusCode = Culqi::Token.create(params)
     token_string = token.to_s
+    puts token
     token_json = JSON.parse(token_string)
     id_value = token_json['id']
-    print id_value
     return [token_json, statusCode]
 
   end
@@ -45,8 +45,7 @@ class CulqiCRUD
       :number_phone => '900000001',
       :otp => '111111'
     }
-
-    yape, statusCode = Culqi::Token.create(params)
+    yape, statusCode = Culqi::Token.createYape(params)
     return JSON.parse(yape), statusCode
 
   end
@@ -54,10 +53,11 @@ class CulqiCRUD
   def self.createCharge
     token_string =  CulqiCRUD.createToken
     token_json = JSON.parse(JSON.generate(token_string[0]))
+    puts token_json
 
 
     params = {
-      :amount => 1000,
+      :amount => "2000",
       :capture => false,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
@@ -69,9 +69,7 @@ class CulqiCRUD
       :source_id => token_json['id']
     }
     charge, statusCode = Culqi::Charge.create(params)
-    puts "Cargo"
     puts charge
-    puts statusCode
     return JSON.parse(charge), statusCode
 
   end
@@ -102,7 +100,7 @@ class CulqiCRUD
       :amount => 10000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :order_number => 'pedido-ruby-'+SecureRandom.random_number(50).to_s,
+      :order_number => 'pedido-ruby-'+SecureRandom.random_number(500).to_s,
       :client_details => ({
         :first_name => 'Richard',
         :last_name => 'Hendricks',
@@ -113,7 +111,7 @@ class CulqiCRUD
       :confirm => false
     }
     order, statusCode = Culqi::Order.create(params)
-    puts order
+
     return JSON.parse(order), statusCode
 
   end
@@ -169,7 +167,7 @@ class CulqiCRUD
     }
 
     plan, statusCode = Culqi::Plan.create(params)
-    puts plan
+    puts plan 
     return JSON.parse(plan), statusCode
 
   end
@@ -185,11 +183,9 @@ class CulqiCRUD
       :metadata => ({
         :other_number => '789953655'
       }),
-      :phone_number => 998989789
+      :phone_number => '998989789'
     }
     customer, statusCode = Culqi::Customer.create(params)
-    puts customer
-    puts statusCode
     return JSON.parse(customer), statusCode
 
   end
@@ -208,7 +204,7 @@ class CulqiCRUD
       :token_id => id_value2
     }
     card, statusCode = Culqi::Card.create(params)
-    puts card
+
     return JSON.parse(card), statusCode
 
   end
@@ -217,7 +213,8 @@ class CulqiCRUD
     card_string =  CulqiCRUD.createCard
     card_json = JSON.parse(JSON.generate(card_string[0]))
     id_value = card_json['id']
-
+    
+    puts id_value
     plan_string =  CulqiCRUD.createPlan
     plan_json = JSON.parse(JSON.generate(plan_string[0]))
     id_value2 = plan_json['id']
@@ -226,8 +223,9 @@ class CulqiCRUD
       :card_id => id_value,
       :plan_id => id_value2
     }
+
     subscription, statusCode = Culqi::Subscription.create(params)
-    puts subscription
+
     return JSON.parse(subscription), statusCode
 
   end
