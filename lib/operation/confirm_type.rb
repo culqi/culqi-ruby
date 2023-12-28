@@ -1,4 +1,5 @@
 require 'util/connect'
+require 'util/validation/helper'
 
 module Culqi::ConfirmType
 
@@ -7,6 +8,10 @@ module Culqi::ConfirmType
   end
 
   def confirm(params={}, rsa_key='', rsa_id='')
+    error = HelperValidation.validate_string_start(params[:order_id], "ord")
+    if error
+      return error
+    end
     key = ''
     if(rsa_key != '')
       params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
