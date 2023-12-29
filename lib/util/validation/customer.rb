@@ -23,4 +23,17 @@ class CustomerValidation
     # Validate email
     raise 'Invalid email.' unless HelperValidation.is_valid_email(data[:email])
   end
+
+  def self.list(data)
+    # Validate email
+    if data.key?('email')
+      unless Helpers.is_valid_email(data[:email])
+        raise CustomException.new('Invalid email.')
+      end
+    end
+    # Validate country_code
+    if data.key?('country_code')
+      Helpers.validate_value(data[:country_code], get_country_codes)
+    end
+  end
 end
