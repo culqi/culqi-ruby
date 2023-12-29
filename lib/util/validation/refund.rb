@@ -29,4 +29,17 @@ class RefundValidation
       raise CustomException.new("Invalid 'amount'. It should be an integer or a string representing an integer.")
     end
   end
+
+  def self.list(data)
+    # Validate card_brand
+    if data.key?('reason')
+      allowed_brand_values = ['duplicado', 'fraudulento', 'solicitud_comprador']
+      Helpers.validate_value(data[:reason], allowed_brand_values)
+    end
+  
+    # Validate date filter
+    if data.key?('creation_date_from') && data.key?('creation_date_to')
+      Helpers.validate_date_filter(data[:creation_date_from], data[:creation_date_to])
+    end
+  end
 end

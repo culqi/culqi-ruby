@@ -37,15 +37,7 @@ class TokenValidation
     end
   end
   
-  def self.token_retrieve_validation(id)
-    HelperValidation.validate_string_start(id, "tkn")
-  end
-  
-  def self.token_update_validation(id)
-    HelperValidation.validate_string_start(id, "tkn")
-  end
-  
-  def self.token_list_validation(data)
+  def self.list(data)
     if data.key?('device_type')
       allowed_device_values = ['desktop', 'mobile', 'tablet']
       HelperValidation.validate_value(data[:device_type], allowed_device_values)

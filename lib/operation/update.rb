@@ -1,4 +1,5 @@
 require 'util/connect'
+require 'util/validation/helper'
 
 module Culqi::Update
 
@@ -7,11 +8,53 @@ module Culqi::Update
   end
 
   def update(id, params={}, rsa_key='', rsa_id='')
+    error = verifyClassValidation(@url, id)
+    if error
+      return error
+    end
     if(rsa_key != '')
       params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
     end
     response, statusCode = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, rsa_id)
     return response, statusCode
+  end
+
+  def verifyClassValidation(url='', id)
+    begin
+      if @url.include? 'token'
+        HelperValidation.validate_string_start(id, "tkn")
+      end
+
+      if @url.include? 'charge'
+        HelperValidation.validate_string_start(id, "chr")
+      end
+      
+      if @url.include? 'card'
+        HelperValidation.validate_string_start(id, "crd")
+      end
+      
+      if @url.include? 'customer'
+        HelperValidation.validate_string_start(id, "cus")
+      end
+      
+      if @url.include? 'refund'
+        HelperValidation.validate_string_start(id, "ref")
+      end
+      
+      if @url.include? 'plan'
+        HelperValidation.validate_string_start(id, "pln")
+      end
+      
+      if @url.include? 'subscription'
+        HelperValidation.validate_string_start(id, "sxn")
+      end
+      
+      if @url.include? 'order'
+        HelperValidation.validate_string_start(id, "ord")
+      end
+    rescue CustomException => e
+      return e.message
+    end
   end
 
 end
