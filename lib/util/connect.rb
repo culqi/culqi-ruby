@@ -8,11 +8,17 @@ module Culqi
     full_url = "#{base_url}#{url}"
 
     print full_url
+
+    if(api_key.include? 'test')
+      env = Culqi::X_CULQI_ENV_TEST
+    else
+      env = Culqi::X_CULQI_ENV_LIVE
+    end
     
     headers = {
       "Authorization" => "Bearer #{api_key}",
       "Content-Type" => "application/json",
-      "x-culqi-env" => Culqi::X_CULQI_ENV,
+      "x-culqi-env" => env,
       "x-api-version" => Culqi::X_API_VERSION,
       "x-culqi-client" => Culqi::X_CULQI_CLIENT,
       "x-culqi-client-version" => Culqi::X_CULQI_CLIENT,

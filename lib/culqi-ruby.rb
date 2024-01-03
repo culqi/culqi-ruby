@@ -24,7 +24,8 @@ module Culqi
   API_BASE_SECURE = 'https://secure.culqi.com/v2'
   READ_TIMEOUT = 120
   LIST_TIMEOUT = 360
-  X_CULQI_ENV = "test"
+  X_CULQI_ENV_TEST = "test"
+  X_CULQI_ENV_LIVE = "live"
   X_API_VERSION = "2"
   X_CULQI_CLIENT = "culqi-ruby"
   X_CULQI_CLIENT_VERSION = "0.1.0"
