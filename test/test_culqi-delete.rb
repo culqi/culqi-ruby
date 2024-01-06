@@ -13,19 +13,19 @@ class CulqiTestDelete < Minitest::Test
   end
 
   def test_delete_plan
-    assert_equal true, JSON.parse(Culqi::Plan.delete(CulqiCRUD.createPlan['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Plan.delete(CulqiCRUD.createPlan[0]['id'])[0])['deleted']
   end
 
   def test_delete_card
-    assert_equal true, JSON.parse(Culqi::Card.delete(CulqiCRUD.createCard['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Card.delete(CulqiCRUD.createCard[0]['id'])[0])['deleted']
   end
 
   def test_delete_customer
-    assert_equal true, JSON.parse(Culqi::Customer.delete(CulqiCRUD.createCustomer['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Customer.delete(CulqiCRUD.createCustomer[0]['id'])[0])['deleted']
   end
 
   def test_delete_order
-    assert_equal true, JSON.parse(Culqi::Order.delete(CulqiCRUD.createOrder['id']))['deleted']
+    assert_equal true, JSON.parse(Culqi::Order.delete(CulqiCRUD.createOrder[0]['id'])[0])['deleted']
   end
 
 end

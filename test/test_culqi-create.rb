@@ -103,7 +103,7 @@ class CulqiTestCre < Minitest::Test
   # CAPTURE CHARGE
 
   def test_capture_charge
-    assert_equal 'charge', JSON.parse(Culqi::Charge.capture(createCharge['id']))['object']
+    assert_equal 'charge', JSON.parse(Culqi::Charge.capture(CulqiCRUD.createCharge[0]['id'])[0])['object']
   end
 
 end
