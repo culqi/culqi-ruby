@@ -12,7 +12,7 @@ module Culqi::Delete
     if error
       return error
     end
-    print "jgudfabsuvfhbsjvfdbvjbhdjhbks"
+
     response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, nil, 'delete', Culqi::READ_TIMEOUT)
     return response
   end
