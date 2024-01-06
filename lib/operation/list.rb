@@ -15,15 +15,15 @@ module Culqi::List
   end
 
   def list(params={})
-    error = verifyClassValidation(@url, params)
+    error = verifyClassValidationList(@url, params)
     if error
       return error
     end
     response = Culqi.connect(@url, Culqi.secret_key, params, 'get', Culqi::LIST_TIMEOUT)
-    return response.read_body
+    return response
   end
 
-  def verifyClassValidation(url='', params)
+  def verifyClassValidationList(url='', params)
     begin
       if @url.include? 'token'
         TokenValidation.list(params)

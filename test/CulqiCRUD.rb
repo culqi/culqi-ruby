@@ -87,7 +87,7 @@ class CulqiCRUD
       :metadata => ({
         :test => 'test123'
       }),
-      :source_id => createToken['id']
+      :source_id => createToken[0]['id']
     }
     charge, statusCode = Culqi::Charge.create(params, rsa_key, rsa_id)
     puts charge
@@ -100,7 +100,7 @@ class CulqiCRUD
       :amount => 10000,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :order_number => 'pedido-ruby-'+SecureRandom.random_number(500).to_s,
+      :order_number => 'pedido-ruby-'+SecureRandom.random_number(50000).to_s,
       :client_details => ({
         :first_name => 'Richard',
         :last_name => 'Hendricks',
@@ -117,7 +117,7 @@ class CulqiCRUD
   end
 
   def self.updateOrder
-    id = createOrder['id']
+    id = createOrder[0]['id']
     params = {
       :metadata => ({
         :dni => '71701978'
@@ -257,8 +257,8 @@ class CulqiCRUD
         "cip"
       ])
     )
-    puts confirmOrder
-    return JSON.parse(confirmOrder)
+    puts confirmOrder[0]
+    return JSON.parse(confirmOrder[0])
   end
 
 end

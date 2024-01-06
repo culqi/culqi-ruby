@@ -8,7 +8,7 @@ module Culqi::Get
   end
 
   def get(id)
-    error = verifyClassValidation(@url, id)
+    error = verifyClassValidationGet(@url, id)
     if error
       return error
     end
@@ -16,7 +16,7 @@ module Culqi::Get
     return response
   end
 
-  def verifyClassValidation(url='', id)
+  def verifyClassValidationGet(url='', id)
     begin
       if @url.include? 'token'
         HelperValidation.validate_string_start(id, "tkn")
