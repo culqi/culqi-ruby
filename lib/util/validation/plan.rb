@@ -62,8 +62,8 @@ class PlanValidation
       end
     end
 
-    if 'creation_date_from' in data and 'creation_date_to' in data:
-      Helpers.validate_date_filter(data['creation_date_from'], data['creation_date_to'])
+    if data.key?('creation_date_from') && data.key?('creation_date_to')
+      HelperValidation.validate_date_filter(data[:creation_date_from], data[:creation_date_to])
     end
   end
 end
