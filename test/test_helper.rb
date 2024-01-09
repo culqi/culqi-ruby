@@ -1,8 +1,8 @@
 require 'minitest/autorun'
 require 'culqi-ruby'
 
-Culqi.public_key = 'pk_test_e94078b9b248675d'
-Culqi.secret_key = 'sk_test_c2267b5b262745f0'
+Culqi.public_key = 'pk_test_90667d0a57d45c48'
+Culqi.secret_key = 'sk_test_1573b0e8079863ff'
 Culqi.rsa_id = 'de35e120-e297-4b96-97ef-10a43423ddec'
 Culqi.rsa_key = "-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDswQycch0x/7GZ0oFojkWCYv+g

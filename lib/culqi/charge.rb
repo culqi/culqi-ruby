@@ -12,7 +12,7 @@ module Culqi
 
     def self.capture(id)
       response, statuscode = Culqi.connect("#{@url}#{id}/capture/", Culqi.secret_key, nil, "post", Culqi::READ_TIMEOUT)
-      return response.read_body, statuscode
+      return response, statuscode
     end
 
   end
