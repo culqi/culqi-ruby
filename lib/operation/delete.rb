@@ -1,4 +1,5 @@
 require 'util/connect'
+require 'util/validation/helper'
 
 module Culqi::Delete
 
@@ -7,8 +8,12 @@ module Culqi::Delete
   end
 
   def delete(id)
-    response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, nil, 'delete', Culqi::READ_TIMEOUT)
-    return response.read_body
-  end
+    error = verifyClassValidationGet(@url, id)
+    if error
+      return error
+    end
 
+    response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, nil, 'delete', Culqi::READ_TIMEOUT)
+    return response
+  end
 end

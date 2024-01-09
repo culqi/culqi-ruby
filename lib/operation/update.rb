@@ -1,4 +1,5 @@
 require 'util/connect'
+require 'util/validation/helper'
 
 module Culqi::Update
 
@@ -7,6 +8,10 @@ module Culqi::Update
   end
 
   def update(id, params={}, rsa_key='', rsa_id='')
+    error = verifyClassValidationGet(@url, id)
+    if error
+      return error
+    end
     if(rsa_key != '')
       params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
     end
