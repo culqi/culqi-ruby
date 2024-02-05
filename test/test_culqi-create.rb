@@ -60,11 +60,19 @@ class CulqiTestCre < Minitest::Test
     assert_equal 'order', id_value
   end
 
+  # rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_plan -v"
   def test_create_plan
     plan_string =  CulqiCRUD.createPlan
     plan_json = JSON.parse(JSON.generate(plan_string[0]))
-    id_value = plan_json['object']
-    assert_equal "plan", id_value
+    assert_instance_of String, plan_json['id']
+  end
+
+  # rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_update_plan -v"
+  def test_update_plan
+    plan_string =  CulqiCRUD.updatePlan
+    plan_json = JSON.parse(JSON.generate(plan_string[0]))
+    puts plan_json
+    assert_instance_of String, plan_json['id']
   end
 
   def test_create_customer
@@ -81,11 +89,20 @@ class CulqiTestCre < Minitest::Test
     assert_equal 'card',id_value
   end
 
+  # rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_create_subscription -v"
   def test_create_subscription
     subscription_string =  CulqiCRUD.createSubscription
     subscription_json = JSON.parse(JSON.generate(subscription_string[0]))
     id_value = subscription_json['object']
-    assert_equal 'subscription', id_value
+    assert_instance_of String, subscription_json['id']
+  end
+
+  # rake test TEST=test/test_culqi-create.rb TESTOPTS="--name=test_update_subscription -v"
+  def test_update_subscription
+    subscription_string =  CulqiCRUD.updateSubscription
+    subscription_json = JSON.parse(JSON.generate(subscription_string[0]))
+    puts subscription_json
+    assert_instance_of String, subscription_json['id']
   end
 
   def test_create_refund

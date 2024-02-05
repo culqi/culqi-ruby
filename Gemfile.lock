@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    diff-lcs (1.5.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     excon (0.100.0)
@@ -15,17 +16,32 @@ GEM
     multi_xml (0.6.0)
     netrc (0.11.0)
     openssl-oaep (0.1.0)
+    rake (13.1.0)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.6)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
 
 PLATFORMS
   x86_64-darwin-22
+  x86_64-linux
 
 DEPENDENCIES
   excon
@@ -33,7 +49,9 @@ DEPENDENCIES
   minitest
   multi_xml
   openssl-oaep (= 0.1.0)
+  rake
   rest-client
+  rspec
 
 BUNDLED WITH
-   2.4.16
+   2.5.5

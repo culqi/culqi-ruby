@@ -20,6 +20,7 @@ module Culqi::Post
     puts params
     error = verifyClassValidation(@url, params)
     if error
+      puts error
       return error
     end
 
@@ -32,6 +33,10 @@ module Culqi::Post
       return response, statuscode
     else
       key = Culqi.secret_key
+      if @url.include?('plans') || @url.include?('subscriptions')
+        response, statuscode = Culqi.connect(@url + 'create', key, params, 'post', Culqi::READ_TIMEOUT, false, '')
+        return response, statuscode
+      end
       response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, '')
       return response, statuscode
     end
@@ -72,6 +77,7 @@ module Culqi::Post
         OrderValidation.create(params)
       end
     rescue CustomException => e
+      puts e.message
       return e.message
     end
   end
