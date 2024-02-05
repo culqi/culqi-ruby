@@ -7,8 +7,7 @@ module Culqi
     base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
     full_url = "#{base_url}#{url}"
 
-    print full_url
-
+    puts " Url #{full_url}"
     if(api_key.include? 'test')
       env = Culqi::X_CULQI_ENV_TEST
     else
@@ -27,6 +26,9 @@ module Culqi
 
     puts "Body"
     puts data.to_json
+
+    puts "headers"
+    puts headers.to_json
 
     response = Excon.new(full_url,
                          headers: headers,

@@ -17,6 +17,7 @@ module Culqi::List
   def list(params={})
     error = verifyClassValidationList(@url, params)
     if error
+      puts "Error: #{error}" 
       return error
     end
     response = Culqi.connect(@url, Culqi.secret_key, params, 'get', Culqi::LIST_TIMEOUT)

@@ -154,20 +154,45 @@ class CulqiCRUD
 
   def self.createPlan
     params = {
-      :amount => 1000,
-      :currency_code => 'PEN',
-      :interval => 'dias',
-      :interval_count => 2,
-      :limit => 10,
+      :short_name => 'cp-prueb2442',
+      :description => 'Cypress PCI | ERRROR NO USAR',
+      :amount => 300,
+      :currency => 'PEN',
+      :interval_unit_time => 1,
+      :interval_count => 1,
+      :initial_cycles => ({
+        :count => 1,
+        :has_initial_charge => true,
+        :amount => 400,
+        :interval_unit_time => 1
+      }),
       :metadata => ({
-        :alias => 'plan_test'
+        :validar_key => 'plan_test'
       }),
       :name => 'plan-test-'+SecureRandom.uuid,
-      :trial_days => 50
+      :image => 'https://recurrencia-suscripciones-qa.s3.amazonaws.com/f097e1d5-e365-42f3-bc40-a27beab80f54'
     }
 
     plan, statusCode = Culqi::Plan.create(params)
     puts plan 
+    return JSON.parse(plan), statusCode
+
+  end
+
+  def self.updatePlan
+    id = createPlan[0]['id']
+    params = {
+      :metadata => ({
+        :dni => '71701978'
+      }),
+      :status => 1,
+      :name => 'plan-test-'+SecureRandom.uuid,
+      :short_name => 'cp-prueb2442',
+      :description => 'Cypress PCI | ERRROR NO USAR',
+      :image => 'https://recurrencia-suscripciones-qa.s3.amazonaws.com/f097e1d5-e365-42f3-bc40-a27beab80f54'
+    }
+    plan, statusCode = Culqi::Plan.update(id, params)
+    puts  "Plan: #{plan}"
     return JSON.parse(plan), statusCode
 
   end
@@ -221,11 +246,26 @@ class CulqiCRUD
 
     params = {
       :card_id => id_value,
-      :plan_id => id_value2
+      :plan_id => id_value2,
+      :tyc => true
     }
 
     subscription, statusCode = Culqi::Subscription.create(params)
 
+    return JSON.parse(subscription), statusCode
+
+  end
+  
+  def self.updateSubscription
+    id = createSubscription[0]['id']
+    params = {
+      :metadata => ({
+        :dni => '71701978'
+      }),
+      :card_id => 'crd_live_GV1gDHwInOASobXp'  
+    }
+    subscription, statusCode = Culqi::Subscription.update(id, params)
+    puts  "Subscription: #{subscription}"
     return JSON.parse(subscription), statusCode
 
   end

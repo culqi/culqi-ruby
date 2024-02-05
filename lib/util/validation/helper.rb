@@ -37,4 +37,153 @@ class HelperValidation
     exp_date > Time.now
   end
 
+  def self.additional_validation(data, required_fields)
+    required_fields.each do |field|
+      
+      if !data.key?(field.to_sym) || data[field.to_sym].nil? || (data[field.to_sym].is_a?(String) && data[field.to_sym].empty?) || data[field.to_sym] == "undefined"
+        puts "¡ERROR! El campo '#{field}' es requerido y no está presente"
+        raise CustomException.new("El campo '#{field}' es requerido y no está presente")
+      end
+    end
+    return nil
+  end
+
+  def self.validate_initial_cycles_parameters(initial_cycles)
+    parameters_initial_cycles = ['count', 'has_initial_charge', 'amount', 'interval_unit_time']
+    parameters_initial_cycles.each do |campo|
+      unless initial_cycles.key?(campo.to_sym)
+        raise CustomException.new("El campo obligatorio '#{campo}' no está presente en 'initial_cycles'.")
+      end
+    end
+  
+    unless initial_cycles[:count].is_a?(Integer)
+      raise CustomException.new("El campo 'initial_cycles.count' es inválido o está vacío, debe tener un valor numérico.")
+    end
+  
+    unless [true, false].include?(initial_cycles[:has_initial_charge])
+      raise CustomException.new("El campo 'initial_cycles.has_initial_charge' es inválido o está vacío. El valor debe ser un booleano (true o false).")
+    end
+  
+    unless initial_cycles[:amount].is_a?(Integer)
+      raise CustomException.new("El campo 'initial_cycles.amount' es inválido o está vacío, debe tener un valor numérico.")
+    end
+  
+    values_interval_unit_time = [1, 2, 3, 4, 5, 6]
+    unless initial_cycles[:interval_unit_time].is_a?(Integer) && values_interval_unit_time.include?(initial_cycles[:interval_unit_time])
+      raise CustomException.new("El campo 'initial_cycles.interval_unit_time' tiene un valor inválido o está vacío. Estos son los únicos valores permitidos: [1, 2, 3, 4, 5, 6]")
+    end
+  end
+
+  def self.validate_enum_currency(currency)
+    allowed_values = ["PEN", "USD"]
+    return nil if allowed_values.include?(currency)
+  
+    raise CustomException.new("El campo 'currency' es inválido o está vacío, el código de la moneda en tres letras (Formato ISO 4217). Culqi actualmente soporta las siguientes monedas: #{allowed_values}.")
+  end
+  
+  def self.validate_currency(currency, amount)
+    err = validate_enum_currency(currency)
+    return CustomException.new(err.to_s) if err
+  
+    min_amount_pen = 3 * 100
+    max_amount_pen = 5000 * 100
+    min_amount_usd = 1 * 100
+    max_amount_usd = 1500 * 100
+  
+    min_amount_public_api = min_amount_pen
+    max_amount_public_api = max_amount_pen
+  
+    if currency == "USD"
+      min_amount_public_api = min_amount_usd
+      max_amount_public_api = max_amount_usd
+    end
+  
+    valid_amount = min_amount_public_api <= amount.to_i && amount.to_i <= max_amount_public_api
+  
+    unless valid_amount
+      raise CustomException.new("El campo 'amount' admite valores en el rango #{min_amount_public_api} a #{max_amount_public_api}.")
+    end
+  
+    nil
+  end
+  
+
+
+  def self.validate_initial_cycles(has_initial_charge, currency, amount, pay_amount, count)
+    if has_initial_charge
+      err = validate_currency(currency, amount)
+      raise CustomException.new(err) if err
+  
+      if amount == pay_amount
+        raise CustomException.new("El campo 'initial_cycles.amount' es inválido o está vacío. El valor no debe ser igual al monto del plan.")
+      end
+  
+      unless (1..9999).include?(count)
+        raise CustomException.new("El campo 'initial_cycles.count' solo admite valores numéricos en el rango 1 a 9999.")
+      end
+  
+      unless (300..500000).include?(pay_amount)
+        raise CustomException.new("El campo 'initial_cycles.amount' solo admite valores numéricos en el rango 300 a 500000.")
+      end
+    else
+      unless (0..9999).include?(count)
+        raise CustomException.new("El campo 'initial_cycles.count' solo admite valores numéricos en el rango 0 a 9999.")
+      end
+  
+      if pay_amount != 0
+        raise CustomException.new("El campo 'initial_cycles.amount' es inválido, debe ser 0.")
+      end
+    end
+  end
+  
+  def self.validate_image(image)
+    # Expresión regular para validar URLs
+    regex_image = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-zA-Z0-9]+([-.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+
+    # Verificar si 'image' es una cadena y cumple con los criterios de validación
+    unless image.is_a?(String) && (5..250).include?(image.length) && image.match?(regex_image)
+        # La imagen no cumple con los criterios de validación
+        raise CustomException.new("El campo 'image' es inválido. Debe ser una cadena y una URL válida.")
+    end
+  end
+
+  def self.validate_metadata(metadata)
+    # Permitir un hash vacío para el campo metadata
+    return nil if metadata.empty?
+
+    # Verificar límites de longitud de claves y valores
+
+    puts "¡Campo '#{metadata}' validado correctamente!"
+    validate_key_and_value_length(metadata)
+
+    # Convertir el hash transformado a JSON
+    begin
+        metadata.to_json
+    rescue JSON::GeneratorError => e
+        return e
+    end
+
+    nil
+  end
+
+  def self.validate_key_and_value_length(obj_metadata)
+    max_key_length = 30
+    max_value_length = 200
+
+    obj_metadata.each do |key, value|
+        key_str = key.to_s
+        value_str = value.to_s
+        # Verificar si la longitud de las claves o valores excede los límites
+        if key_str.length > max_key_length || value_str.length > max_value_length
+          raise CustomException.new("El objeto 'metadata' es inválido, límite key (1 - #{max_key_length}), value (1 - #{max_value_length}).")
+        end
+    end
+  end
+
+  def self.retrieve(id)
+    unless id.length == 25
+      raise CustomException.new("El campo 'id' es inválido. La longitud debe ser de 25 caracteres.")
+    end
+  end
+
 end
