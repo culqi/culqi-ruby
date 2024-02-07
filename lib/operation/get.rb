@@ -10,6 +10,7 @@ module Culqi::Get
   def get(id)
     error = verifyClassValidationGet(@url, id)
     if error
+      puts "Error: #{error}" 
       return error
     end
     response = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, nil, 'get', Culqi::READ_TIMEOUT)
