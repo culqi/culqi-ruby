@@ -20,7 +20,7 @@ module Culqi::Post
     puts params
     error = verifyClassValidation(@url, params)
     if error
-      puts error
+      puts "Error: #{error}" 
       return error
     end
 

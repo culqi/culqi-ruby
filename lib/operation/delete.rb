@@ -10,6 +10,7 @@ module Culqi::Delete
   def delete(id)
     error = verifyClassValidationGet(@url, id)
     if error
+      puts "Error: #{error}" 
       return error
     end
 
