@@ -181,7 +181,7 @@ class HelperValidation
   end
 
   def self.retrieve(id)
-    unless id.length == 25
+    unless id.is_a?(String) && id.length == 25
       raise CustomException.new("El campo 'id' es inválido. La longitud debe ser de 25 caracteres.")
     end
   end
