@@ -11,17 +11,17 @@ class SubscriptionValidation
     if result_validation != nil
       raise CustomException.new("#{result_validation}")
     else
+      HelperValidation.validate_string_start(data[:card_id], "crd")
       # Validate card_id
       if !data[:card_id].is_a?(String) || data[:card_id].length != 25
-        raise CustomException.new("El campo 'card_id' es inválido. La longitud debe ser de 25.")
+        raise CustomException.new("El campo 'card_id' es inválido o está vacío, debe ser una cadena.")
       end
-      HelperValidation.validate_string_start(data[:card_id], "crd")
 
+      HelperValidation.validate_string_start(data[:plan_id], "pln")
       # Validate plan_id
       if !data[:plan_id].is_a?(String) || data[:plan_id].length != 25
-        raise CustomException.new("El campo 'plan_id' es inválido. La longitud debe ser de 25.")
+        raise CustomException.new("El campo 'plan_id' es inválido o está vacío, debe ser una cadena.")
       end
-      HelperValidation.validate_string_start(data[:plan_id], "pln")
 
       # Validate tyc
       if !data[:tyc].is_a?(TrueClass) && !data[:tyc].is_a?(FalseClass)
