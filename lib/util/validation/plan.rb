@@ -74,7 +74,7 @@ class PlanValidation
 
     # Validate parameters creation_date_from
     if data.key?(:creation_date_from)
-      unless data[:creation_date_from].is_a?(String) && (data['creation_date_from'].length == 10 || data['creation_date_from'].length == 13)
+      unless data[:creation_date_from].is_a?(String) && (data[:creation_date_from].length == 10 || data[:creation_date_from].length == 13)
         raise CustomException.new("El campo 'creation_date_from' debe tener una longitud de 10 o 13 caracteres.")
       end
     end
