@@ -13,13 +13,13 @@ class SubscriptionValidation
     else
       # Validate card_id
       if !data[:card_id].is_a?(String) || data[:card_id].length != 25
-        raise CustomException.new("El campo 'card_id' es inválido o está vacío, debe ser una cadena.")
+        raise CustomException.new("El campo 'card_id' es inválido. La longitud debe ser de 25.")
       end
       HelperValidation.validate_string_start(data[:card_id], "crd")
 
       # Validate plan_id
       if !data[:plan_id].is_a?(String) || data[:plan_id].length != 25
-        raise CustomException.new("El campo 'plan_id' es inválido o está vacío, debe ser una cadena.")
+        raise CustomException.new("El campo 'plan_id' es inválido. La longitud debe ser de 25.")
       end
       HelperValidation.validate_string_start(data[:plan_id], "pln")
 
