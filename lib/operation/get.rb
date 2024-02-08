@@ -40,11 +40,12 @@ module Culqi::Get
       end
       
       if @url.include? 'plan'
-        HelperValidation.validate_string_start(id, "pln")
         HelperValidation.retrieve(id)
+        HelperValidation.validate_string_start(id, "pln")
       end
       
       if @url.include? 'subscription'
+        HelperValidation.retrieve(id)
         HelperValidation.validate_string_start(id, "sxn")
       end
       
