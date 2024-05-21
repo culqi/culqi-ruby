@@ -111,16 +111,16 @@ class PlanValidation
     # Validate parameters max_amount
     if data.key?(:max_amount)
       range_max_amount = (300..500000)
-      unless data[:max_amount].is_a?(Integer) && range_max_amount.include?(data[:max_amount])
-        raise CustomException.new("El filtro 'max_amount' admite valores en el rango 300 a 500000.")
+      unless data[:max_amount].is_a?(Integer)
+        raise CustomException.new("El filtro 'max_amount' es invalido, debe tener un valor numérico entero.")
       end
     end
 
     # Validate parameters min_amount
     if data.key?(:min_amount)
       range_min_amount = (300..500000)
-      unless data[:min_amount].is_a?(Integer) && range_min_amount.include?(data[:min_amount])
-        raise CustomException.new("El filtro 'min_amount' admite valores en el rango 300 a 500000.")
+      unless data[:min_amount].is_a?(Integer)
+        raise CustomException.new("El filtro 'min_amount' es invalido, debe tener un valor numérico entero.")
       end
     end
 

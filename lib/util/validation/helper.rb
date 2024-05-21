@@ -81,58 +81,20 @@ class HelperValidation
     raise CustomException.new("El campo 'currency' es inválido o está vacío, el código de la moneda en tres letras (Formato ISO 4217). Culqi actualmente soporta las siguientes monedas: #{allowed_values}.")
   end
   
-  def self.validate_currency(currency, amount)
-    err = validate_enum_currency(currency)
-    return CustomException.new(err.to_s) if err
-  
-    min_amount_pen = 3 * 100
-    max_amount_pen = 5000 * 100
-    min_amount_usd = 1 * 100
-    max_amount_usd = 1500 * 100
-  
-    min_amount_public_api = min_amount_pen
-    max_amount_public_api = max_amount_pen
-  
-    if currency == "USD"
-      min_amount_public_api = min_amount_usd
-      max_amount_public_api = max_amount_usd
-    end
-  
-    valid_amount = min_amount_public_api <= amount.to_i && amount.to_i <= max_amount_public_api
-  
-    unless valid_amount
-      raise CustomException.new("El campo 'amount' admite valores en el rango #{min_amount_public_api} a #{max_amount_public_api}.")
-    end
-  
-    nil
-  end
-  
-
-
   def self.validate_initial_cycles(has_initial_charge, currency, amount, pay_amount, count)
     if has_initial_charge
-      err = validate_currency(currency, amount)
+      err = validate_enum_currency(currency)
       raise CustomException.new(err) if err
-  
-      if amount == pay_amount
-        raise CustomException.new("El campo 'initial_cycles.amount' es inválido o está vacío. El valor no debe ser igual al monto del plan.")
-      end
-  
+    
       unless (1..9999).include?(count)
         raise CustomException.new("El campo 'initial_cycles.count' solo admite valores numéricos en el rango 1 a 9999.")
       end
   
-      unless (300..500000).include?(pay_amount)
-        raise CustomException.new("El campo 'initial_cycles.amount' solo admite valores numéricos en el rango 300 a 500000.")
-      end
     else
       unless (0..9999).include?(count)
         raise CustomException.new("El campo 'initial_cycles.count' solo admite valores numéricos en el rango 0 a 9999.")
       end
-  
-      if pay_amount != 0
-        raise CustomException.new("El campo 'initial_cycles.amount' es inválido, debe ser 0.")
-      end
+
     end
   end
   
