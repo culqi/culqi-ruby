@@ -7,6 +7,8 @@ module Culqi
     base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
     full_url = "#{base_url}#{url}"
 
+    print full_url
+
     if(api_key.include? 'test')
       env = Culqi::X_CULQI_ENV_TEST
     else
