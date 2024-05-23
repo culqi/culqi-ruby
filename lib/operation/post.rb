@@ -36,7 +36,6 @@ module Culqi::Post
         return response, statuscode
       end
       response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, '')
-      print "Paso Validación: ".  response .  statuscode
 
       return response, statuscode
     end
@@ -77,7 +76,6 @@ module Culqi::Post
         OrderValidation.create(params)
       end
     rescue CustomException => e
-      puts e.message
       return e.message
     end
   end
