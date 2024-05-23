@@ -49,13 +49,13 @@ module Culqi::Update
       end
       
       if @url.include? 'plan'
-        HelperValidation.retrieve(id)
+        HelperValidation.validateId(id)
         HelperValidation.validate_string_start(id, "pln")
         PlanValidation.update(params)
       end
       
       if @url.include? 'subscription'
-        HelperValidation.retrieve(id)
+        HelperValidation.validateId(id)
         HelperValidation.validate_string_start(id, "sxn")
         SubscriptionValidation.update(params)
       end
