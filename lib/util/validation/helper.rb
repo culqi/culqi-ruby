@@ -99,26 +99,17 @@ class HelperValidation
   end
   
   def self.validate_image(image)
-    # Expresión regular para validar URLs
     regex_image = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-zA-Z0-9]+([-.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 
-    # Verificar si 'image' es una cadena y cumple con los criterios de validación
     unless image.is_a?(String) && (5..250).include?(image.length) && image.match?(regex_image)
-        # La imagen no cumple con los criterios de validación
         raise CustomException.new("El campo 'image' es inválido. Debe ser una cadena y una URL válida.")
     end
   end
 
   def self.validate_metadata(metadata)
-    # Permitir un hash vacío para el campo metadata
     return nil if metadata.empty?
 
-    # Verificar límites de longitud de claves y valores
-
-    puts "¡Campo '#{metadata}' validado correctamente!"
     validate_key_and_value_length(metadata)
-
-    # Convertir el hash transformado a JSON
     begin
         metadata.to_json
     rescue JSON::GeneratorError => e
@@ -135,7 +126,6 @@ class HelperValidation
     obj_metadata.each do |key, value|
         key_str = key.to_s
         value_str = value.to_s
-        # Verificar si la longitud de las claves o valores excede los límites
         if key_str.length > max_key_length || value_str.length > max_value_length
           raise CustomException.new("El objeto 'metadata' es inválido, límite key (1 - #{max_key_length}), value (1 - #{max_value_length}).")
         end

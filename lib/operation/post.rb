@@ -20,10 +20,8 @@ module Culqi::Post
     puts params
     error = verifyClassValidation(@url, params)
     if error
-      puts "Error: #{error}" 
       return error
     end
-
     if @url.include? 'token'
       if(rsa_key != '')
         params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
@@ -38,6 +36,8 @@ module Culqi::Post
         return response, statuscode
       end
       response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, '')
+      print "Paso Validación: ".  response .  statuscode
+
       return response, statuscode
     end
     
