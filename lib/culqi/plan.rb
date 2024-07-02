@@ -7,7 +7,7 @@ module Culqi
     extend Get
     extend Delete
 
-    URL = '/plans/'
+    URL = '/recurrent/plans/'
 
     @url = URL
 
