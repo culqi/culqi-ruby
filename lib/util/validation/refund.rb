@@ -6,15 +6,17 @@ require 'util/validation/error'
 
 class RefundValidation
   def self.create(data)
+    data = data.to_json
+    data = JSON.parse(data)
     # Validate charge format
-    HelperValidation.validate_string_start(data[:charge_id], "chr")
+    HelperValidation.validate_string_start(data['charge_id'], "chr")
 
     # Validate reason
     allowed_values = ['duplicado', 'fraudulento', 'solicitud_comprador']
-    HelperValidation.validate_value(data[:reason], allowed_values)
+    HelperValidation.validate_value(data['reason'], allowed_values)
 
     # Validate amount
-    amount = data[:amount]
+    amount = data['amount']
 
     if amount.is_a?(String)
       begin
