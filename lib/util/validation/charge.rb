@@ -6,11 +6,13 @@ require 'util/validation/error'
 
 class ChargeValidation
   def self.create(data)
+    data = data.to_json
+    data = JSON.parse(data)
     # Validate email
-    raise 'Invalid email.' unless HelperValidation.is_valid_email(data[:email])
+    raise 'Invalid email.' unless HelperValidation.is_valid_email(data['email'])
 
     # Validate amount
-    amount = data[:amount]
+    amount = data['amount']
 
     if amount.is_a?(String)
       begin
@@ -25,8 +27,8 @@ class ChargeValidation
       raise CustomException.new("Invalid 'amount'. It should be an integer or a string representing an integer.")
     end
 
-    HelperValidation.validate_currency_code(data[:currency_code])
-    source_id = data[:source_id]
+    HelperValidation.validate_currency_code(data['currency_code'])
+    source_id = data['source_id']
 
     if source_id.start_with?("tkn")
       HelperValidation.validate_string_start(source_id, "tkn")

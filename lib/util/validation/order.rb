@@ -7,7 +7,9 @@ require 'util/validation/error'
 class OrderValidation
   def self.create(data)
     # Validate amount
-    amount = data[:amount]
+    data = data.to_json
+    data = JSON.parse(data)
+    amount = data['amount'];
 
     if amount.is_a?(String)
       begin
@@ -22,19 +24,19 @@ class OrderValidation
     end
 
     # Validate currency
-    HelperValidation.validate_currency_code(data[:currency_code])
+    HelperValidation.validate_currency_code(data['currency_code'])
 
     # Validate firstname, lastname, and phone
-    client_details = data[:client_details] || {}
-    raise CustomException.new('first name is empty.') if client_details[:first_name].nil? || client_details[:first_name].empty?
-    raise CustomException.new('last name is empty.') if client_details[:last_name].nil? || client_details[:last_name].empty?
-    raise CustomException.new('phone_number is empty.') if client_details[:phone_number].nil? || client_details[:phone_number].empty?
+    client_details = data['client_details'] || {}
+    raise CustomException.new('first name is empty.') if client_details['first_name'].nil? || client_details['first_name'].empty?
+    raise CustomException.new('last name is empty.') if client_details['last_name'].nil? || client_details['last_name'].empty?
+    raise CustomException.new('phone_number is empty.') if client_details['phone_number'].nil? || client_details['phone_number'].empty?
 
     # Validate email
-    raise CustomException.new('Invalid email.') unless HelperValidation.is_valid_email(client_details[:email])
+    raise CustomException.new('Invalid email.') unless HelperValidation.is_valid_email(client_details['email'])
 
     # Validate expiration date
-    raise CustomException.new('expiration_date must be a future date.') unless HelperValidation.is_future_date(data[:expiration_date])
+    raise CustomException.new('expiration_date must be a future date.') unless HelperValidation.is_future_date(data['expiration_date'])
   end
 
   def self.list(data)
