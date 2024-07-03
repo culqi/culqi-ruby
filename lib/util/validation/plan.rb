@@ -6,8 +6,10 @@ require 'util/validation/error'
 
 class PlanValidation
   def self.create(data)
+    data = data.to_json
+    data = JSON.parse(data)
     # Validate amount
-    amount = data[:amount]
+    amount = data['amount']
 
     if amount.is_a?(String)
       begin
@@ -24,10 +26,10 @@ class PlanValidation
 
     # Validate interval
     allowed_values = ['dias', 'semanas', 'meses', 'años']
-    HelperValidation.validate_value(data[:interval], allowed_values)
+    HelperValidation.validate_value(data['interval'], allowed_values)
 
     # Validate currency
-    HelperValidation.validate_currency_code(data[:currency_code])
+    HelperValidation.validate_currency_code(data['currency_code'])
   end
 
   def self.list(data)

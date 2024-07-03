@@ -32,7 +32,13 @@ module Culqi::Post
       return response, statuscode
     else
       key = Culqi.secret_key
-      response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, '')
+      url = @url
+
+      if(url.include? 'plans')
+        url = url + 'create/'
+      end
+      
+      response, statuscode = Culqi.connect(url, key, params, 'post', Culqi::READ_TIMEOUT, false, '')
       return response, statuscode
     end
     

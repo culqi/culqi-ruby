@@ -7,32 +7,37 @@ require 'util/validation/error'
 
 class TokenValidation
   def self.create(data)
+    data = data.to_json
+    data = JSON.parse(data)
+
     # Validate card number
-    raise CustomException.new('Invalid card number.') unless HelperValidation.is_valid_card_number(data[:card_number])
+    raise CustomException.new('Invalid card number.') unless HelperValidation.is_valid_card_number(data['card_number'])
 
     # Validate CVV
-    raise CustomException.new('Invalid CVV.') unless data[:cvv]&.match?(/^\d{3,4}$/)
+    raise CustomException.new('Invalid CVV.') unless data['cvv']&.match?(/^\d{3,4}$/)
 
     # Validate email
-    raise CustomException.new('Invalid email.') unless HelperValidation.is_valid_email(data[:email])
+    raise CustomException.new('Invalid email.') unless HelperValidation.is_valid_email(data['email'])
 
     # Validate expiration month
-    raise 'Invalid expiration month.' unless data[:expiration_month].to_s.match?(/^(0?[1-9]|1[012])$/)
+    raise 'Invalid expiration month.' unless data['expiration_month'].to_s.match?(/^(0?[1-9]|1[012])$/)
 
     # Validate expiration year
     current_year = Date.today.year
-    if !data[:expiration_year].to_s.match?(/^\d{4}$/) || data[:expiration_year].to_s.to_i < current_year
+    if !data['expiration_year'].to_s.match?(/^\d{4}$/) || data['expiration_year'].to_s.to_i < current_year
       raise 'Invalid expiration year.'
     end
 
     # Check if the card is expired
-    exp_date = Date.strptime("#{data[:expiration_year]}-#{data[:expiration_month]}", '%Y-%m')
+    exp_date = Date.strptime("#{data['expiration_year']}-#{data['expiration_month']}", '%Y-%m')
     raise 'Card has expired.' if exp_date < Date.today
   end
 
   def self.create_token_yape_validation(data)
+    data = data.to_json
+    data = JSON.parse(data)
     # Validate amount
-    unless data[:amount].is_a?(Numeric) && data[:amount].to_i == data[:amount]
+    unless data['amount'].is_a?(Numeric) && data['amount'].to_i == data['amount']
       raise CustomException.new('Invalid amount.')
     end
   end

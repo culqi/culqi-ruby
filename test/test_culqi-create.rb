@@ -63,8 +63,8 @@ class CulqiTestCre < Minitest::Test
   def test_create_plan
     plan_string =  CulqiCRUD.createPlan
     plan_json = JSON.parse(JSON.generate(plan_string[0]))
-    id_value = plan_json['object']
-    assert_equal "plan", id_value
+    id_value = plan_json['id']
+    assert_match /^pln_\w+$/, id_value
   end
 
   def test_create_customer

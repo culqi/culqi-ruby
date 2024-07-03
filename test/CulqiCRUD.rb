@@ -158,7 +158,18 @@ class CulqiCRUD
       :currency_code => 'PEN',
       :interval => 'dias',
       :interval_count => 2,
+      :interval_unit_time => 1,
       :limit => 10,
+      :initial_cycles => ({
+        :count => 1,
+        :amount => 0,
+        :interval_unit_time => 1,
+        :has_initial_charge => false
+      }),
+      :name => 'plan_test',
+      :short_name => 'plan_test',
+      :description => 'plan_test',
+      :currency => 'PEN',
       :metadata => ({
         :alias => 'plan_test'
       }),
