@@ -32,7 +32,7 @@ module Culqi
 
 
   class << self
-      attr_accessor :public_key, :secret_key, :rsa_id, :rsa_key
+      attr_accessor :public_key, :secret_key, :rsa_id, :rsa_key, :headers
   end
 
 end

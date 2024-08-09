@@ -7,6 +7,7 @@ module Culqi
     base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
     full_url = "#{base_url}#{url}"
 
+    puts "\nEndpoint"
     print full_url
 
     if(api_key.include? 'test')
@@ -25,7 +26,28 @@ module Culqi
       "x-culqi-rsa-id" => rsa_id
     }
 
-    puts "Body"
+    # Add Headers depending on the configuration => Culqi.headers()
+    if Culqi.headers
+      puts "\nHeaders Add"
+      puts Culqi.headers
+
+      if Culqi.headers.key?('allow') && Culqi.headers['allow'].is_a?(Hash)
+        Culqi.headers['allow'].each do |header_key, header_value|
+          headers[header_key] = header_value if header_value
+        end
+      end
+
+      Culqi.headers.each do |key, params|
+        if url.include?(key) && params.is_a?(Hash)
+          params.each do |header_key, header_value|
+            headers[header_key] = header_value if header_value
+          end
+        end
+      end
+
+    end
+
+    puts "\nBody"
     puts data.to_json
 
     response = Excon.new(full_url,
