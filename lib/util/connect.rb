@@ -3,7 +3,7 @@ require 'json'
 require 'culqi-ruby'
 
 module Culqi
-  def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id='')
+  def self.connect(url, api_key, data, type, time_out, secure_url = false, rsa_id='', custom_headers = nil)
     base_url = secure_url ? Culqi::API_BASE_SECURE : Culqi::API_BASE
     full_url = "#{base_url}#{url}"
 
@@ -26,23 +26,13 @@ module Culqi
       "x-culqi-rsa-id" => rsa_id
     }
 
-    # Add Headers depending on the configuration => Culqi.headers()
-    if Culqi.headers
-      puts "\nHeaders Add"
-      puts Culqi.headers
+    # Add Headers depending on the configuration => custom_headers
+    if custom_headers
+      puts "\nCustom_headers"
+      puts custom_headers.to_json
 
-      if Culqi.headers.key?('allow') && Culqi.headers['allow'].is_a?(Hash)
-        Culqi.headers['allow'].each do |header_key, header_value|
-          headers[header_key] = header_value if header_value
-        end
-      end
-
-      Culqi.headers.each do |key, params|
-        if url.include?(key) && params.is_a?(Hash)
-          params.each do |header_key, header_value|
-            headers[header_key] = header_value if header_value
-          end
-        end
+      custom_headers.each do |header_key, header_value|
+        headers[header_key] = header_value if header_value
       end
 
     end

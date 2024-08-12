@@ -10,16 +10,3 @@ r5CyfBKXc3Izq+btIEMCrkDrIsz4Lnl5E3FSD7/htFn1oE84SaDKl5DgbNoev3pM
 C7MDDgdCFrHODOp7aXwjG8NaiCbiymyBglXyEN28hLvgHpvZmAn6KFo0lMGuKnz8
 HiuTfpBl6HpD6+02SQIDAQAB
 -----END PUBLIC KEY-----"
-
-# Parameters or Configuration of headers optional
-Culqi.headers = {
-  'charges' => {
-    'X-Charge-Channel' => 'recurrent',
-  },
-  'plans' => {
-    'X-Plan-Type' => 'premium'
-  },
-  'allow' => {
-    'X-Header-Config' => true,
-  }
-}
