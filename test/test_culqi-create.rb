@@ -32,6 +32,13 @@ class CulqiTestCre < Minitest::Test
     assert_equal 'charge',id_value
   end
 
+  def test_create_charge_with_custom_headers
+    charge_string =  CulqiCRUD.createChargeWithCustomHeaders
+    charge_json = JSON.parse(JSON.generate(charge_string[0]))
+    id_value = charge_json['object']
+    assert_equal 'charge',id_value
+  end
+
   def test_create_charge_encrypt
     charge_string =  CulqiCRUD.createChargeEncrypt
     charge_json = JSON.parse(JSON.generate(charge_string[0]))
