@@ -160,7 +160,7 @@ charge, statusCode = Culqi::Charge.create(params, '', '', custom_headers)
 
 jsonCharge = JSON.parse(charge)
 ```
-
+**Solo habilitado para metodos POST**
 ### Crear Devolución
 
 Solicita la devolución de las compras de tus clientes (parcial o total) de forma gratuita a través del API y CulqiPanel. 
