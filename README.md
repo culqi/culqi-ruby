@@ -123,6 +123,44 @@ charge, statusCode = Culqi::Charge.create(params)
 jsonCharge = JSON.parse(charge)
 ```
 
+### Crear Cargo con Configuración Adicional
+
+**¿Cómo funciona la configuración adicional?**
+
+Puedes agregar campos configurables en la sección **custom_headers** para personalizar las solicitudes de cobro. Es importante tener en cuenta que no se permiten campos con valores **false**, **null**, o cadenas vacías (**''**).
+
+**Explicación:**
+- **params**: Contiene la información necesaria para crear el cargo, como el monto, la moneda, y el correo del cliente.
+- **custom_headers**: Define los encabezados personalizados para la solicitud. Recuerda que solo se permiten valores válidos.
+- **Filtrado de encabezados**: Antes de realizar la solicitud, se eliminan los encabezados con valores no permitidos (**false, null, o vacíos**) para garantizar que la solicitud sea aceptada por la API.
+
+**¿Quieres realizar cobros a una lista de comercios en un tiempo y monto determinado?**
+
+Para realizar un cobro recurrente, puedes utilizar el siguiente código (**Configuración Adicional -> custom_headers**):
+
+```ruby
+params = {
+  :amount => 1000,
+  :capture => false,
+  :currency_code => 'PEN',
+  :description => 'Venta de prueba',
+  :email => 'test'+SecureRandom.uuid+'@culqi.com',
+  :installments => 0,
+  :metadata => ({
+    :test => 'test123'
+  }),
+  :source_id => token_json['id']
+}
+
+custom_headers  = {
+  'X-Charge-Channel' => 'recurrent',
+}
+
+charge, statusCode = Culqi::Charge.create(params, '', '', custom_headers)
+
+jsonCharge = JSON.parse(charge)
+```
+
 ### Crear Devolución
 
 Solicita la devolución de las compras de tus clientes (parcial o total) de forma gratuita a través del API y CulqiPanel. 
