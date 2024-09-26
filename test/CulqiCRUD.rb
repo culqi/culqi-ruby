@@ -74,6 +74,35 @@ class CulqiCRUD
 
   end
 
+  def self.createChargeWithCustomHeaders
+    token_string =  CulqiCRUD.createToken
+    token_json = JSON.parse(JSON.generate(token_string[0]))
+    puts token_json
+
+    params = {
+      :amount => "2000",
+      :capture => false,
+      :currency_code => 'PEN',
+      :description => 'Venta de prueba',
+      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :installments => 0,
+      :metadata => ({
+        :test => 'test123'
+      }),
+      :source_id => token_json['id']
+    }
+
+    custom_headers  = {
+      'X-Charge-Channel' => 'recurrent',
+      'X-add-header' => false
+    }
+
+    charge, statusCode = Culqi::Charge.create(params, '', '', custom_headers)
+    puts charge
+    return JSON.parse(charge), statusCode
+
+  end
+
   def self.createChargeEncrypt
     rsa_key = Culqi.rsa_key
     rsa_id = Culqi.rsa_id
