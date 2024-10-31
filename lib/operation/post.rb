@@ -15,7 +15,7 @@ module Culqi::Post
     @url = ''
   end
 
-  def create(params={}, rsa_key='', rsa_id='')
+  def create(params={}, rsa_key='', rsa_id='', custom_headers = nil)
     key = ''
     puts params
     error = verifyClassValidation(@url, params)
@@ -27,7 +27,7 @@ module Culqi::Post
         params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
       end
       key = Culqi.public_key 
-      response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, true, rsa_id)
+      response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, true, rsa_id, custom_headers)
       return response, statuscode
     else
       key = Culqi.secret_key
@@ -35,8 +35,8 @@ module Culqi::Post
         response, statuscode = Culqi.connect(@url + 'create', key, params, 'post', Culqi::READ_TIMEOUT, false, '')
         return response, statuscode
       end
-      response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, '')
 
+      response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, '', custom_headers)
       return response, statuscode
     end
     
