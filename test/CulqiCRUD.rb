@@ -40,7 +40,7 @@ class CulqiCRUD
 
   def self.createYape
     params = {
-      :amount => '1000',
+      :amount => 600,
       :fingerprint => '86d3c875769bf62b0471b47853bfda77',
       :number_phone => '900000001',
       :otp => '111111'
@@ -57,11 +57,11 @@ class CulqiCRUD
 
 
     params = {
-      :amount => "2000",
+      :amount => 1000,
       :capture => false,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :email => 'richard@piedpiper.com',
       :installments => 0,
       :metadata => ({
         :test => 'test123'
@@ -184,7 +184,7 @@ class CulqiCRUD
   def self.createPlan
     params = {
       :short_name => 'cp-prueb2442',
-      :description => 'Cypress PCI | ERRROR NO USAR',
+      :description => 'Cypress PCI ERRROR NO USAR',
       :amount => 300,
       :currency => 'PEN',
       :interval_unit_time => 1,
@@ -199,7 +199,6 @@ class CulqiCRUD
         :validar_key => 'plan_test'
       }),
       :name => 'plan-test-'+SecureRandom.uuid,
-      :image => 'https://recurrencia-suscripciones-qa.s3.amazonaws.com/f097e1d5-e365-42f3-bc40-a27beab80f54'
     }
 
     plan, statusCode = Culqi::Plan.create(params)
@@ -217,8 +216,7 @@ class CulqiCRUD
       :status => 1,
       :name => 'plan-test-'+SecureRandom.uuid,
       :short_name => 'cp-prueb2442',
-      :description => 'Cypress PCI | ERRROR NO USAR',
-      :image => 'https://recurrencia-suscripciones-qa.s3.amazonaws.com/f097e1d5-e365-42f3-bc40-a27beab80f54'
+      :description => 'Cypress PCI ERRROR NO USAR',
     }
     plan, statusCode = Culqi::Plan.update(id, params)
     puts  "Plan: #{plan}"
@@ -231,7 +229,7 @@ class CulqiCRUD
       :address => 'Avenida Lima 123213',
       :address_city => 'LIMA',
       :country_code => 'PE',
-      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :email => "test#{SecureRandom.hex(5)}@culqi.com", ## 35 caracteres
       :first_name => 'William',
       :last_name => 'Muro',
       :metadata => ({

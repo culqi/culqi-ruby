@@ -24,7 +24,7 @@ module Culqi
             params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
           end
           key = Culqi.public_key 
-          response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, true, rsa_id)
+          response, statuscode = Culqi.connect(@url + "yape", key, params, 'post', Culqi::READ_TIMEOUT, true, rsa_id)
           return response, statuscode
         end
       rescue CustomException => e

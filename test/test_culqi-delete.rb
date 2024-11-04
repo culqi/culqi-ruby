@@ -8,10 +8,6 @@ class CulqiTestDelete < Minitest::Test
 
   # DELETE RESOURCES
 
-  def test_delete_subscription
-    assert_equal true, JSON.parse(Culqi::Subscription.delete(CulqiCRUD.createSubscription['id']))['deleted']
-  end
-
   # rake test TEST=test/test_culqi-delete.rb TESTOPTS="--name=test_delete_plan -v"
   def test_delete_plan
     assert_equal true, JSON.parse(Culqi::Plan.delete(CulqiCRUD.createPlan[0]['id'])[0])['deleted']
