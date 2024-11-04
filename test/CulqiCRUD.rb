@@ -40,7 +40,7 @@ class CulqiCRUD
 
   def self.createYape
     params = {
-      :amount => '1000',
+      :amount => 600,
       :fingerprint => '86d3c875769bf62b0471b47853bfda77',
       :number_phone => '900000001',
       :otp => '111111'
@@ -57,11 +57,11 @@ class CulqiCRUD
 
 
     params = {
-      :amount => "2000",
+      :amount => 1000,
       :capture => false,
       :currency_code => 'PEN',
       :description => 'Venta de prueba',
-      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :email => 'richard@piedpiper.com',
       :installments => 0,
       :metadata => ({
         :test => 'test123'
@@ -183,31 +183,43 @@ class CulqiCRUD
 
   def self.createPlan
     params = {
-      :amount => 1000,
-      :currency_code => 'PEN',
-      :interval => 'dias',
-      :interval_count => 2,
+      :short_name => 'cp-prueb2442',
+      :description => 'Cypress PCI ERRROR NO USAR',
+      :amount => 300,
+      :currency => 'PEN',
       :interval_unit_time => 1,
-      :limit => 10,
+      :interval_count => 1,
       :initial_cycles => ({
         :count => 1,
-        :amount => 0,
-        :interval_unit_time => 1,
-        :has_initial_charge => false
+        :has_initial_charge => true,
+        :amount => 400,
+        :interval_unit_time => 1
       }),
-      :name => 'plan_test',
-      :short_name => 'plan_test',
-      :description => 'plan_test',
-      :currency => 'PEN',
       :metadata => ({
-        :alias => 'plan_test'
+        :validar_key => 'plan_test'
       }),
       :name => 'plan-test-'+SecureRandom.uuid,
-      :trial_days => 50
     }
 
     plan, statusCode = Culqi::Plan.create(params)
     puts plan 
+    return JSON.parse(plan), statusCode
+
+  end
+
+  def self.updatePlan
+    id = createPlan[0]['id']
+    params = {
+      :metadata => ({
+        :dni => '71701978'
+      }),
+      :status => 1,
+      :name => 'plan-test-'+SecureRandom.uuid,
+      :short_name => 'cp-prueb2442',
+      :description => 'Cypress PCI ERRROR NO USAR',
+    }
+    plan, statusCode = Culqi::Plan.update(id, params)
+    puts  "Plan: #{plan}"
     return JSON.parse(plan), statusCode
 
   end
@@ -217,7 +229,7 @@ class CulqiCRUD
       :address => 'Avenida Lima 123213',
       :address_city => 'LIMA',
       :country_code => 'PE',
-      :email => 'test'+SecureRandom.uuid+'@culqi.com',
+      :email => "test#{SecureRandom.hex(5)}@culqi.com", ## 35 caracteres
       :first_name => 'William',
       :last_name => 'Muro',
       :metadata => ({
@@ -261,11 +273,26 @@ class CulqiCRUD
 
     params = {
       :card_id => id_value,
-      :plan_id => id_value2
+      :plan_id => id_value2,
+      :tyc => true
     }
 
     subscription, statusCode = Culqi::Subscription.create(params)
 
+    return JSON.parse(subscription), statusCode
+
+  end
+  
+  def self.updateSubscription
+    id = createSubscription[0]['id']
+    params = {
+      :metadata => ({
+        :dni => '71701978'
+      }),
+      :card_id => 'crd_live_GV1gDHwInOASobXp'  
+    }
+    subscription, statusCode = Culqi::Subscription.update(id, params)
+    puts  "Subscription: #{subscription}"
     return JSON.parse(subscription), statusCode
 
   end
