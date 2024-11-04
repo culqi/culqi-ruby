@@ -19,8 +19,17 @@ class CulqiTestGet < Minitest::Test
     assert_equal 'charge', JSON.parse(Culqi::Charge.get(CulqiCRUD.createCharge[0]['id'])[0])['object']
   end
 
+  # rake test TEST=test/test_culqi-get.rb TESTOPTS="--name=test_get_plan -v"
   def test_get_plan
-    assert_equal "plan", JSON.parse(Culqi::Plan.get(CulqiCRUD.createPlan[0]['id'])[0])['object']
+    # Obtener el identificador devuelto por createPlan
+    created_id = CulqiCRUD.createPlan[0]['id']
+  
+    # Obtener el identificador devuelto por Culqi::Plan.get
+    parsed_json = JSON.parse(Culqi::Plan.get(created_id)[0])
+    retrieved_id = parsed_json["id"]
+  
+    # Verificar que los identificadores sean iguales
+    assert_equal created_id, retrieved_id, "Los identificadores no son iguales"
   end
 
   def test_get_customer
@@ -31,8 +40,16 @@ class CulqiTestGet < Minitest::Test
     assert_equal 'card', JSON.parse(Culqi::Card.get(CulqiCRUD.createCard[0]['id'])[0])['object']
   end
 
+  # rake test TEST=test/test_culqi-get.rb TESTOPTS="--name=test_get_subscription -v"
   def test_get_subscription
-    assert_equal 'subscription', JSON.parse(Culqi::Subscription.get(CulqiCRUD.createSubscription[0]['id'])[0])['object']
+    created_id = CulqiCRUD.createSubscription[0]['id']
+  
+    # Obtener el identificador devuelto por Culqi::Subscription.get
+    parsed_json = JSON.parse(Culqi::Subscription.get(created_id)[0])
+    retrieved_id = parsed_json["id"]
+  
+    # Verificar que los identificadores sean iguales
+    assert_equal created_id, retrieved_id, "Los identificadores no son iguales"
   end
 
   def test_get_refund

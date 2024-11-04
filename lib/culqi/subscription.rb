@@ -6,8 +6,9 @@ module Culqi
     extend Post
     extend Delete
     extend Get
+    extend Update
 
-    URL = '/subscriptions/'
+    URL = '/recurrent/subscriptions/'
 
     @url = URL
 

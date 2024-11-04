@@ -6,6 +6,7 @@ module Culqi
     extend Post
     extend Get
     extend Delete
+    extend Update
 
     URL = '/recurrent/plans/'
 

@@ -18,13 +18,18 @@ module Culqi
     
     headers = {
       "Authorization" => "Bearer #{api_key}",
+      'Accept': 'application/json',
       "Content-Type" => "application/json",
       "x-culqi-env" => env,
       "x-api-version" => Culqi::X_API_VERSION,
       "x-culqi-client" => Culqi::X_CULQI_CLIENT,
       "x-culqi-client-version" => Culqi::X_CULQI_CLIENT,
-      "x-culqi-rsa-id" => rsa_id
+      #"x-culqi-rsa-id" => rsa_id
     }
+
+    if rsa_id && !rsa_id.empty?
+      headers["x-culqi-rsa-id"] = rsa_id
+    end
 
     # Add Headers depending on the configuration => custom_headers
     if custom_headers
@@ -39,6 +44,7 @@ module Culqi
 
     puts "\nBody"
     puts data.to_json
+
 
     response = Excon.new(full_url,
                          headers: headers,
