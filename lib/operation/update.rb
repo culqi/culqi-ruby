@@ -22,7 +22,7 @@ module Culqi::Update
       response, statuscode = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, false, '')
       return response, statuscode
     end
-    response, statusCode = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, rsa_id)
+    response, statusCode = Culqi.connect("#{@url}#{id}/", Culqi.secret_key, params, 'patch', Culqi::READ_TIMEOUT, false, rsa_id)
     return response, statusCode
   end
 

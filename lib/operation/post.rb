@@ -22,6 +22,12 @@ module Culqi::Post
     if error
       return error
     end
+    if @url.include?('charge') && rsa_key != ''
+      params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
+      key = Culqi.secret_key 
+      response, statuscode = Culqi.connect(@url, key, params, 'post', Culqi::READ_TIMEOUT, false, rsa_id, custom_headers)
+      return response, statuscode
+    end
     if @url.include? 'token'
       if(rsa_key != '')
         params = Encrypt.encrypt_with_aes_rsa(params, rsa_key, true)
