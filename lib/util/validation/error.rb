@@ -3,12 +3,15 @@ require 'json'
 class CustomException < StandardError
   def initialize(merchant_message)
     @error_data = {
-      "object" => "error",
-      "type" => "param_error",
-      "merchant_message" => merchant_message,
-      "user_message" => merchant_message
+      "status" => 400, 
+      "data" => {
+        "object" => "error",
+        "type" => "param_error",
+        "merchant_message" => merchant_message,
+        "user_message" => merchant_message
+      }
     }
-    super("CustomException: #{@error_data}")
+    super("CustomException: #{@merchant_message}")
   end
 
   def to_s

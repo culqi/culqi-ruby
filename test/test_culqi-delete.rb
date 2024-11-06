@@ -27,7 +27,9 @@ class CulqiTestDelete < Minitest::Test
   end
 
   def test_delete_order
-    assert_equal true, JSON.parse(Culqi::Order.delete(CulqiCRUD.createOrder[0]['id'])[0])['deleted']
+    _, response_status = Culqi::Order.delete(CulqiCRUD.createOrder[0]['id'])
+    # Verifica que el status 204 (Not content)
+    assert_equal 204, response_status  
   end
 
 end
