@@ -202,7 +202,6 @@ class CulqiCRUD
     }
 
     plan, statusCode = Culqi::Plan.create(params)
-    puts plan 
     return JSON.parse(plan), statusCode
 
   end
@@ -284,12 +283,16 @@ class CulqiCRUD
   end
   
   def self.updateSubscription
-    id = createSubscription[0]['id']
+    id = CulqiCRUD.createSubscription[0]['id']
+    card_string =  CulqiCRUD.createCard
+    card_json = JSON.parse(JSON.generate(card_string[0]))
+    id_value = card_json['id']
+    
     params = {
       :metadata => ({
         :dni => '71701978'
       }),
-      :card_id => 'crd_live_GV1gDHwInOASobXp'  
+      :card_id => id_value
     }
     subscription, statusCode = Culqi::Subscription.update(id, params)
     puts  "Subscription: #{subscription}"
