@@ -67,6 +67,12 @@ module Culqi
 
     puts result.body
 
+    begin
+      body_result = result.body
+    rescue Encoding::UndefinedConversionError
+      body_result = result.body.force_encoding('UTF-8')
+    end
+
     return result.body, result.status
   end
 end
