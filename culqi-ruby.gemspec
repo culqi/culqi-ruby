@@ -17,4 +17,15 @@ Gem::Specification.new do |s|
   s.files         = Dir['lib/**/*.rb']
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 3.0.0'
+
+  # Runtime dependencies
+  s.add_runtime_dependency 'rest-client', '~> 2.1'
+  s.add_runtime_dependency 'openssl-oaep', '0.1.0'
+  s.add_runtime_dependency 'mini_mime', '1.1.2'
+  s.add_runtime_dependency 'multi_xml'
+  s.add_runtime_dependency 'excon'
+
+  # Development dependencies
+  s.add_development_dependency 'rake', '~> 13.0'
+  s.add_development_dependency 'minitest'
 end
