@@ -1,14 +1,14 @@
 # Culqi-Ruby
 
-[![Gem Version](https://badge.fury.io/rb/culqi-ruby.svg)](https://badge.fury.io/rb/culqi-ruby)
+[![Gem Version](https://badge.fury.io/rb/culqi-ruby-oficial.svg)](https://rubygems.org/gems/culqi-ruby-oficial)
 
 Nuestra Biblioteca Culqi-Ruby oficial, es compatible con la v2.0 del Culqi API, con el cual tendrás la posibilidad de realizar cobros con tarjetas de débito y crédito, Yape, PagoEfectivo, billeteras móviles y Cuotéalo con solo unos simples pasos de configuración.
 
 Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solicitud HTTP que se realiza al API de Culqi, así como el `response` que contiene el cuerpo de la respuesta obtenida.
 
-| Versión actual|Culqi API|
+| Versión de este código|Culqi API|
 |----|----|
-| [1.0.0](https://rubygems.org/gems/culqi-ruby) (2023-08-11) |[v2](https://culqi.com/api)|
+| [1.0.0](https://rubygems.org/gems/culqi-ruby-oficial/versions/1.0.0) (2023-08-19) |[v2](https://culqi.com/api)|
 
 
 ## Requisitos
@@ -25,7 +25,19 @@ Nuestra biblioteca te da la posibilidad de capturar el `status_code` de la solic
 
 * Para encriptar el payload debes generar un id y llave RSA  ingresando a CulqiPanel > Desarrollo  > RSA Keys.
 
-## Instalar Dependencias
+## Instalar la biblioteca publicada
+
+```bash
+gem install culqi-ruby-oficial
+```
+
+Para incluirla en un `Gemfile`:
+
+```ruby
+gem 'culqi-ruby-oficial'
+```
+
+## Instalar dependencias para desarrollo
 
 ```bash
 gem install bundler
@@ -36,14 +48,16 @@ bundle install
 
 ```bash
 gem build culqi-ruby.gemspec
-gem install ./culqi-ruby-{VERSION}.gem
-gem push culqi-ruby-{VERSION}.gem
+gem install ./culqi-ruby-oficial-{VERSION}.gem
+gem push culqi-ruby-oficial-{VERSION}.gem
 ```
 
 ## Configuracion
 
 Para empezar a enviar peticiones al API de Culqi debes configurar tu llave pública (pk), llave privada (sk).
 Para habilitar encriptación de payload debes configurar tu rsa_id y rsa_public_key.
+
+Usa tus propias llaves de prueba (`pk_test_` y `sk_test_`) y credenciales RSA de prueba. Los tests realizan llamadas reales al API de Culqi; antes de ejecutarlos, reemplaza los placeholders de `test/test_helper.rb` con credenciales de prueba. No hagas commit de llaves.
 
 ```ruby
 
